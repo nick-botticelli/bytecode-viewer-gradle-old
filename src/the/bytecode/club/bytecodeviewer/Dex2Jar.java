@@ -36,7 +36,7 @@ public class Dex2Jar {
      */
     public static synchronized void dex2Jar(File input, File output) {
         try {
-            com.googlecode.dex2jar.tools.Dex2jarCmd.main(new String[]{input.getAbsolutePath()});
+            com.googlecode.dex2jar.tools.Dex2jarCmd.main(new String[]{input.getAbsolutePath(), "--force"});
             String realOutput = input.getName().replaceAll("\\.dex", "-dex2jar.jar").replaceAll("\\.apk", "-dex2jar.jar");
             File realOutputF = new File(realOutput);
             realOutputF.renameTo(output);

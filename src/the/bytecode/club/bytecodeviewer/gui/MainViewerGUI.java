@@ -1467,6 +1467,7 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
         mnNewMenu_7.add(mnSmalidex);
         mnSmalidex.add(panel1Smali);
+
         panel1Smali.addActionListener(listener);
 
         mnSmalidex.add(separator_22);
@@ -2068,9 +2069,9 @@ public class MainViewerGUI extends JFrame implements FileChangeNotifier {
 
         setSize(new Dimension(800, 400));
         if (BytecodeViewer.previewCopy)
-            setTitle("Bytecode Viewer " + BytecodeViewer.version + " Preview - https://bytecodeviewer.com | https://the.bytecode.club - @Konloch");
+            setTitle("Bytecode Viewer " + BytecodeViewer.version + " Preview - https://bytecodeviewer.com | https://the.bytecode.club - @Konloch & @BsnNick");
         else
-            setTitle("Bytecode Viewer " + BytecodeViewer.version + " - https://bytecodeviewer.com | https://the.bytecode.club - @Konloch");
+            setTitle("Bytecode Viewer " + BytecodeViewer.version + " - https://bytecodeviewer.com | https://the.bytecode.club - @Konloch & @BsnNick");
 
         getContentPane().setLayout(
                 new BoxLayout(getContentPane(), BoxLayout.X_AXIS));

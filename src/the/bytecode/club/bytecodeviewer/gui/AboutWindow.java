@@ -61,7 +61,7 @@ public class AboutWindow extends JFrame {
     public void setVisible(boolean b) {
         super.setVisible(b);
         textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
-        textArea.setText("Bytecode Viewer " + BytecodeViewer.version + " is an open source program developed and maintained by Konloch (konloch@gmail.com) 100% free and open sourced licensed under GPL v3 CopyLeft\r\n\r\n" +
+        textArea.setText("Bytecode Viewer " + BytecodeViewer.version + " is an open source program developed and maintained by Konloch (konloch@gmail.com) (Patched by BsnNick) 100% free and open sourced licensed under GPL v3 CopyLeft\r\n\r\n" +
                 "Settings:" + BytecodeViewer.nl +
                 "	Preview Copy: " + BytecodeViewer.previewCopy + BytecodeViewer.nl +
                 "	Fat Jar: " + BytecodeViewer.fatJar + BytecodeViewer.nl +

@@ -5,10 +5,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import me.konloch.kontainer.io.DiskReader;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.objectweb.asm.tree.ClassNode;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
@@ -93,10 +94,14 @@ public class FernFlowerDecompiler extends Decompiler {
 
         if (!BytecodeViewer.fatJar) {
             try {
-                ProcessBuilder pb = new ProcessBuilder(ArrayUtils.addAll(
-                        new String[]{BytecodeViewer.getJavaCommand(), "-jar", Resources.findLibrary("fernflower")},
-                        generateMainMethod(tempClass.getAbsolutePath(), ".")
-                ));
+                List<String> arr = new ArrayList<String>();
+                
+                for (String s : new String[]{BytecodeViewer.getJavaCommand(), "-jar", Resources.findLibrary("fernflower")})
+                    arr.add(s);
+                for (String s : generateMainMethod(tempClass.getAbsolutePath(), "."))
+                    arr.add(s);
+                
+                ProcessBuilder pb = new ProcessBuilder(arr);
                 BytecodeViewer.sm.stopBlocking();
                 Process p = pb.start();
                 BytecodeViewer.createdProcesses.add(p);

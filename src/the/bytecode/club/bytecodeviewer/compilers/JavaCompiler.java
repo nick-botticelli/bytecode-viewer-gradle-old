@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.apache.commons.io.FileUtils;
+
 import me.konloch.kontainer.io.DiskWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.JarUtils;
@@ -122,7 +124,7 @@ public class JavaCompiler extends Compiler {
 
         if (cont)
             try {
-                return org.apache.commons.io.FileUtils.readFileToByteArray(clazz);
+                return FileUtils.readFileToByteArray(clazz);
             } catch (IOException e) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
             }

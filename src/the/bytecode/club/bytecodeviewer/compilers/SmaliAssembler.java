@@ -55,7 +55,7 @@ public class SmaliAssembler extends Compiler {
         }
 
         try {
-            org.jf.smali.main.main(new String[]{tempSmaliFolder.getAbsolutePath(), "-o", tempDex.getAbsolutePath()});
+            org.jf.baksmali.Main.main(new String[]{tempSmaliFolder.getAbsolutePath(), "disassemble", "-o", tempDex.getAbsolutePath()});
         } catch (Exception e) {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }

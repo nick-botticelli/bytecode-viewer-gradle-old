@@ -17,7 +17,6 @@ import java.util.zip.ZipOutputStream;
 
 import me.konloch.kontainer.io.DiskReader;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.objectweb.asm.tree.ClassNode;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;

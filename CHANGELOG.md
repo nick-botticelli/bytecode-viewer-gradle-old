@@ -350,4 +350,16 @@ Changelog:
 1/31/2018 - Fomatted all the classes so GitHub doesn't show them as a mess.
 1/31/2018 - Made Krakatau and Enjarify work offline (assuming you have the libraries).
 1/31/2018 - Added stackframes remover.
+--- 2.9.11.1 ---;
+12/27/2018 - Revived project to fix issues and update dependencies; based off of master branch as of 12/27/2018.
+12/27/2018 - Updated APKTool [2.0.1 -> 2.4.0-SNAPSHOT (12/27/2018)]
+12/27/2018 - Updated Dex2Jar [1.7 -> 2.1-SNAPSHOT (12/27/2018)]
+12/27/2018 - Updated Smali/Baksmali (2.0.3 -> 2.2.5)
+12/27/2018 - Updated CFR decompiler (0.125 -> 0.138)
+12/27/2018 - Updated JD-Gui decompiler (1.0.0-RC4 -> 1.4.0)
+12/27/2018 - Updated Fernflower decompiler (2017 -> 12/17/2018)
+12/27/2018 - Updated Janino (2.7.8 -> 3.0.11)
+12/27/2018 - Updated Jasmin (2.5 -> 3.0.3)
+12/27/2018 - Updated Miscellaneous dependencies & fixed compatibility
+12/27/2018 - Updated version checking URL to match current fork (BsnNick)
 ```

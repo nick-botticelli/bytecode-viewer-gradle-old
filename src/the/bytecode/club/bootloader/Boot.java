@@ -120,7 +120,7 @@ public class Boot {
         }
 
         if (urlList.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Bytecode Viewer ran into an issue, for some reason github is not returning what we're expecting. Please try rebooting, if this issue persists please contact @Konloch.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Bytecode Viewer ran into an issue, for some reason github is not returning what we're expecting. Please try rebooting, if this issue persists DO NOT contact @Konloch.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -435,7 +435,7 @@ public class Boot {
                 System.out.println("Updated to enjarify v" + BytecodeViewer.enjarifyVersion);
             } catch (Exception e) {
                 BytecodeViewer.showMessage("ERROR: There was an issue unzipping enjarify (possibly corrupt). Restart BCV." + BytecodeViewer.nl +
-                        "If the error persists contact @Konloch.");
+                        "If the error persists DO NOT contact @Konloch.");
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
                 enjarifyZip.delete();
             }
@@ -476,7 +476,7 @@ public class Boot {
                 System.out.println("Updated to krakatau v" + BytecodeViewer.krakatauVersion);
             } catch (Exception e) {
                 BytecodeViewer.showMessage("ERROR: There was an issue unzipping Krakatau decompiler (possibly corrupt). Restart BCV." + BytecodeViewer.nl +
-                        "If the error persists contact @Konloch.");
+                        "If the error persists DO NOT contact @Konloch.");
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
                 krakatauZip.delete();
             }
