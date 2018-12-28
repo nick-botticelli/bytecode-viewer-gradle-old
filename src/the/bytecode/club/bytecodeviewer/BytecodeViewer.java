@@ -176,7 +176,7 @@ public class BytecodeViewer {
         @Override
         public void run() {
             try {
-                HTTPRequest r = new HTTPRequest(new URL("https://raw.githubusercontent.com/BsnNick/bytecode-viewer/master/VERSION"));
+                HTTPRequest r = new HTTPRequest(new URL("https://raw.githubusercontent.com/nick-botticelli/bytecode-viewer/master/VERSION"));
                 final String version = r.readSingle();
                 try {
                     int simplemaths = Integer.parseInt(version.replace(".", ""));
@@ -188,7 +188,7 @@ public class BytecodeViewer {
                 }
 
                 if (!BytecodeViewer.version.equals(version)) {
-                    r = new HTTPRequest(new URL("https://raw.githubusercontent.com/BsnNick/bytecode-viewer/master/CHANGELOG.md"));
+                    r = new HTTPRequest(new URL("https://raw.githubusercontent.com/nick-botticelli/bytecode-viewer/master/CHANGELOG.md"));
                     String[] readme = r.read();
 
                     String changelog = "Unable to load change log, please try again later." + nl;
@@ -542,8 +542,8 @@ public class BytecodeViewer {
      */
     public static void main(String[] args) {
         BytecodeViewer.args = args;
-        System.out.println("https://the.bytecode.club - Created by @Konloch (Patched by BsnNick) - Bytecode Viewer " + version+", FatJar: " + fatJar);
-        System.out.println("Do not contact @Konloch for support! This is a custom-patched build by @BsnNick!");
+        System.out.println("https://the.bytecode.club - Created by @Konloch (Patched by nick-botticelli) - Bytecode Viewer " + version+", FatJar: " + fatJar);
+        System.out.println("Do not contact @Konloch for support! This is a custom-patched build by @nick-botticelli!");
         System.setSecurityManager(sm);
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

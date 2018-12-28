@@ -361,5 +361,5 @@ Changelog:
 12/27/2018 - Updated Janino (2.7.8 -> 3.0.11)
 12/27/2018 - Updated Jasmin (2.5 -> 3.0.3)
 12/27/2018 - Updated Miscellaneous dependencies & fixed compatibility
-12/27/2018 - Updated version checking URL to match current fork (BsnNick)
+12/27/2018 - Updated version checking URL to match current fork (nick-botticelli)
 ```
