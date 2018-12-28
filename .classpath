@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="lib" path="C:/Users/Nick/eclipse-workspace/bytecode-viewer-original-edited/libs2/asm-debug-all-5.0.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nick/eclipse-workspace/bytecode-viewer-original-edited/libs2/commons-lang3-3.8.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nick/eclipse-workspace/bytecode-viewer-original-edited/libs2/commons-cli-1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nick/eclipse-workspace/bytecode-viewer-original-edited/libs2/commons-text-1.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nick/eclipse-workspace/bytecode-viewer-original-edited/libs2/commons-io-2.6.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="plugins"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/Users/Nick/eclipse-workspace/bytecode-viewer-original-edited/libs2/guava-27.0.1-jre.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nick/eclipse-workspace/bytecode-viewer-original-edited/libs2/dex-tools-2.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nick/eclipse-workspace/bytecode-viewer-original-edited/libs2/baksmali-2.2.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nick/eclipse-workspace/bytecode-viewer-original-edited/libs2/smali-2.2.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nick/eclipse-workspace/bytecode-viewer-original-edited/libs2/apktool-2.4.0-SNAPSHOT-small-181227.jar"/>
+	<classpathentry kind="lib" path="libs/byteanalysis-1.0.jar"/>
+	<classpathentry kind="lib" path="libs/jar-rename-1.6.jar"/>
+	<classpathentry kind="lib" path="libs/jgraphx.jar"/>
+	<classpathentry kind="lib" path="libs/procyon-decompiler-0.5.30.jar"/>
+	<classpathentry kind="lib" path="libs/rsyntaxtextarea.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nick/eclipse-workspace/bytecode-viewer-original-edited/libs2/cfr-0.138.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nick/eclipse-workspace/bytecode-viewer-original-edited/libs2/fernflower.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nick/eclipse-workspace/bytecode-viewer-original-edited/libs2/janino-3.0.11.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nick/eclipse-workspace/bytecode-viewer-original-edited/libs2/jasmin-3.0.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nick/eclipse-workspace/bytecode-viewer-original-edited/libs2/jd-gui-1.4.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nick/eclipse-workspace/bytecode-viewer-original-edited/libs2/commons-compiler-3.0.11.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nick/eclipse-workspace/bytecode-viewer-original-edited/libs/imgscalr-lib-4.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nick/eclipse-workspace/bytecode-viewer-original-edited/libs2/d2j-base-cmd-2.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nick/eclipse-workspace/bytecode-viewer-original-edited/libs2/dx-27.0.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nick/eclipse-workspace/bytecode-viewer-original-edited/libs2/dex-translator-2.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nick/eclipse-workspace/bytecode-viewer-original-edited/libs2/dex-reader-api-2.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nick/eclipse-workspace/bytecode-viewer-original-edited/libs2/dex-reader-2.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nick/eclipse-workspace/bytecode-viewer-original-edited/libs2/dex-ir-2.1-SNAPSHOT.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
