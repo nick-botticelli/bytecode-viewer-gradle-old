@@ -4,10 +4,10 @@ import java.io.File;
 
 import me.konloch.kontainer.io.DiskWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.Dex2Jar;
-import the.bytecode.club.bytecodeviewer.Enjarify;
-import the.bytecode.club.bytecodeviewer.MiscUtils;
-import the.bytecode.club.bytecodeviewer.ZipUtils;
+import the.bytecode.club.bytecodeviewer.util.Dex2Jar;
+import the.bytecode.club.bytecodeviewer.util.Enjarify;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+import the.bytecode.club.bytecodeviewer.util.ZipUtils;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -44,7 +44,7 @@ public class SmaliAssembler extends Compiler {
         tempSmaliFolder.mkdir();
 
         File tempSmali = new File(tempSmaliFolder.getAbsolutePath() + BytecodeViewer.fs + fileNumber + ".smali");
-        File tempDex = new File(fileStart + fileNumber + ".dex");
+        File tempDex = new File("./out.dex");
         File tempJar = new File(fileStart + fileNumber + ".jar");
         File tempJarFolder = new File(fileStart + fileNumber + "-jar" + BytecodeViewer.fs);
 
@@ -55,8 +55,9 @@ public class SmaliAssembler extends Compiler {
         }
 
         try {
-            org.jf.baksmali.Main.main(new String[]{tempSmaliFolder.getAbsolutePath(), "disassemble", "-o", tempDex.getAbsolutePath()});
+            com.googlecode.d2j.smali.SmaliCmd.main(new String[]{tempSmaliFolder.getAbsolutePath()});//, "-o", tempDex.getAbsolutePath()});
         } catch (Exception e) {
+            e.printStackTrace();
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }
 
@@ -67,6 +68,7 @@ public class SmaliAssembler extends Compiler {
             Enjarify.apk2Jar(tempDex, tempJar);
 
         try {
+            System.out.println("Unzipping to " + tempJarFolder.getAbsolutePath());
             ZipUtils.unzipFilesToPath(tempJar.getAbsolutePath(), tempJarFolder.getAbsolutePath());
 
             File outputClass = null;

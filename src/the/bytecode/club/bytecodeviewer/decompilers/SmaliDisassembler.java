@@ -1,17 +1,17 @@
 package the.bytecode.club.bytecodeviewer.decompilers;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 import me.konloch.kontainer.io.DiskReader;
 
+import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.tree.ClassNode;
 
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.Dex2Jar;
-import the.bytecode.club.bytecodeviewer.MiscUtils;
-import the.bytecode.club.bytecodeviewer.ZipUtils;
+import the.bytecode.club.bytecodeviewer.util.Dex2Jar;
+import the.bytecode.club.bytecodeviewer.util.FileContainer;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
+import the.bytecode.club.bytecodeviewer.util.ZipUtils;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -39,14 +39,13 @@ import the.bytecode.club.bytecodeviewer.ZipUtils;
 
 public class SmaliDisassembler extends Decompiler {
 
-    public String decompileClassNode(ClassNode cn, byte[] b) {
-        String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs
-                + "temp";
+    public String decompileClassNode(FileContainer container, ClassNode cn, byte[] b) {
+        String exception = "";
+        String fileStart = BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp";
 
         String start = MiscUtils.getUniqueName(fileStart, ".class");
 
         final File tempClass = new File(start + ".class");
-        final File tempZip = new File(start + ".jar");
         final File tempDex = new File(start + ".dex");
         final File tempSmali = new File(start + "-smali"); //output directory
 
@@ -60,14 +59,36 @@ public class SmaliDisassembler extends Decompiler {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }
 
-        ZipUtils.zipFile(tempClass, tempZip);
+        //ZipUtils.zipFile(tempClass, tempZip);
 
-        Dex2Jar.saveAsDex(tempZip, tempDex);
+        Dex2Jar.saveAsDex(tempClass, tempDex, true);
 
-        try {
-            org.jf.baksmali.Main.main(new String[]{"disassemble", "-o", tempSmali.getAbsolutePath(), tempDex.getAbsolutePath()});
-        } catch (Exception e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+        try
+        {
+            com.googlecode.d2j.smali.BaksmaliCmd.main(new String[]{tempDex.getAbsolutePath()});
+        }
+        catch(Exception e)
+        {
+            StringWriter sw = new StringWriter();
+            e.printStackTrace(new PrintWriter(sw));
+            e.printStackTrace();
+
+            exception += "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
+        }
+
+        File rename = new File(tempDex.getName().replaceFirst("\\.dex", "-out"));
+
+        try
+        {
+            FileUtils.moveDirectory(rename, tempSmali);
+        }
+        catch (IOException e)
+        {
+            StringWriter sw = new StringWriter();
+            e.printStackTrace(new PrintWriter(sw));
+            e.printStackTrace();
+
+            exception += "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
         }
 
         File outputSmali = null;
@@ -87,14 +108,24 @@ public class SmaliDisassembler extends Decompiler {
         try {
             return DiskReader.loadAsString(outputSmali.getAbsolutePath());
         } catch (Exception e) {
-            new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
+            StringWriter sw = new StringWriter();
+            e.printStackTrace(new PrintWriter(sw));
+            e.printStackTrace();
+
+            exception += "Bytecode Viewer Version: " + BytecodeViewer.VERSION + BytecodeViewer.nl + BytecodeViewer.nl + sw.toString();
         }
 
+        return "Smali Disassembler error! Send the stacktrace to Konloch at http://the.bytecode.club or konloch@gmail.com" + BytecodeViewer.nl + BytecodeViewer.nl + "Suggested Fix: Click refresh class, if it fails again try another decompiler." + BytecodeViewer.nl + BytecodeViewer.nl + exception;
+    }
+
+    @Override
+    public String decompileClassNode(ClassNode cn, byte[] b)
+    {
         return null;
     }
 
     @Override
-    public void decompileToZip(String zipName) {
+    public void decompileToZip(String sourceJar, String zipName) {
 
     }
 }

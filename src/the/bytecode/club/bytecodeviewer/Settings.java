@@ -31,9 +31,9 @@ import me.konloch.kontainer.io.DiskWriter;
 
 public class Settings {
 
-    public static void saveGUI() {
+    public static void saveSettings() {
         try {
-            DiskWriter.replaceFile(BytecodeViewer.settingsName, "", false);
+            DiskWriter.replaceFile(BytecodeViewer.settingsName, "BCV: " + BytecodeViewer.VERSION, false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.rbr.isSelected()), false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.rsy.isSelected()), false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.din.isSelected()), false);
@@ -134,6 +134,10 @@ public class Settings {
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "8", false);
             else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.panel1JDGUI.getModel()))
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "9", false);
+            else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.jadxJ1.getModel()))
+                DiskWriter.writeNewLine(BytecodeViewer.settingsName, "10", false);
+            else if (BytecodeViewer.viewer.panelGroup1.isSelected(BytecodeViewer.viewer.asmText1.getModel()))
+                DiskWriter.writeNewLine(BytecodeViewer.settingsName, "11", false);
 
             if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2None.getModel()))
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "0", false);
@@ -155,6 +159,10 @@ public class Settings {
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "8", false);
             else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.panel2JDGUI.getModel()))
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "9", false);
+            else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.jadxJ2.getModel()))
+                DiskWriter.writeNewLine(BytecodeViewer.settingsName, "10", false);
+            else if (BytecodeViewer.viewer.panelGroup2.isSelected(BytecodeViewer.viewer.asmText2.getModel()))
+                DiskWriter.writeNewLine(BytecodeViewer.settingsName, "11", false);
 
             if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3None.getModel()))
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "0", false);
@@ -176,11 +184,15 @@ public class Settings {
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "8", false);
             else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.panel3JDGUI.getModel()))
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "9", false);
+            else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.jadxJ3.getModel()))
+                DiskWriter.writeNewLine(BytecodeViewer.settingsName, "10", false);
+            else if (BytecodeViewer.viewer.panelGroup3.isSelected(BytecodeViewer.viewer.asmText3.getModel()))
+                DiskWriter.writeNewLine(BytecodeViewer.settingsName, "11", false);
 
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.refreshOnChange.isSelected()), false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.isMaximized), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.autoCompileSmali.isSelected()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.autoCompileOnRefresh.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName, "deprecated", false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName, "deprecated", false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.lastDirectory, false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.python, false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.rt, false);
@@ -206,7 +218,7 @@ public class Settings {
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.panel2JDGUI_E.isSelected()), false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.panel3JDGUI_E.isSelected()), false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.fontSpinner.getValue()), false);
-            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.deleteForiegnLibraries), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.deleteForeignLibraries), false);
             if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionDex.getModel()))
                 DiskWriter.writeNewLine(BytecodeViewer.settingsName, "0", false);
             else if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel()))
@@ -214,12 +226,20 @@ public class Settings {
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.python3, false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.javac, false);
             DiskWriter.writeNewLine(BytecodeViewer.settingsName, BytecodeViewer.java, false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.compileOnSave.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.autoCompileOnRefresh.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.warnForEditing), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.showFileInTabTitle.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.forcePureAsciiAsText.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.synchronizedViewing.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.showClassMethods.isSelected()), false);
+            DiskWriter.writeNewLine(BytecodeViewer.settingsName, String.valueOf(BytecodeViewer.viewer.ren.isSelected()), false);
         } catch (Exception e) {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
         }
     }
 
-    public static void loadGUI() { //utilizes the Disk Reader's caching system.
+    public static void loadSettings() { //utilizes the Disk Reader's caching system.
         try {
             BytecodeViewer.viewer.rbr.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 1, true)));
             BytecodeViewer.viewer.rsy.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 2, false)));
@@ -322,6 +342,10 @@ public class Settings {
                 BytecodeViewer.viewer.panelGroup1.setSelected(BytecodeViewer.viewer.panel1KrakatauBytecode.getModel(), true);
             else if (decompiler == 9)
                 BytecodeViewer.viewer.panelGroup1.setSelected(BytecodeViewer.viewer.panel1JDGUI.getModel(), true);
+            else if (decompiler == 10)
+                BytecodeViewer.viewer.panelGroup1.setSelected(BytecodeViewer.viewer.jadxJ1.getModel(), true);
+            else if (decompiler == 11)
+                BytecodeViewer.viewer.panelGroup1.setSelected(BytecodeViewer.viewer.asmText1.getModel(), true);
 
             decompiler = Integer.parseInt(DiskReader.loadString(BytecodeViewer.settingsName, 82, false));
             if (decompiler == 0)
@@ -344,6 +368,10 @@ public class Settings {
                 BytecodeViewer.viewer.panelGroup2.setSelected(BytecodeViewer.viewer.panel2KrakatauBytecode.getModel(), true);
             else if (decompiler == 9)
                 BytecodeViewer.viewer.panelGroup2.setSelected(BytecodeViewer.viewer.panel2JDGUI.getModel(), true);
+            else if (decompiler == 10)
+                BytecodeViewer.viewer.panelGroup2.setSelected(BytecodeViewer.viewer.jadxJ2.getModel(), true);
+            else if (decompiler == 11)
+                BytecodeViewer.viewer.panelGroup2.setSelected(BytecodeViewer.viewer.asmText2.getModel(), true);
 
             decompiler = Integer.parseInt(DiskReader.loadString(BytecodeViewer.settingsName, 83, false));
             if (decompiler == 0)
@@ -366,6 +394,10 @@ public class Settings {
                 BytecodeViewer.viewer.panelGroup3.setSelected(BytecodeViewer.viewer.panel3KrakatauBytecode.getModel(), true);
             else if (decompiler == 9)
                 BytecodeViewer.viewer.panelGroup3.setSelected(BytecodeViewer.viewer.panel3JDGUI.getModel(), true);
+            else if (decompiler == 10)
+                BytecodeViewer.viewer.panelGroup3.setSelected(BytecodeViewer.viewer.jadxJ3.getModel(), true);
+            else if (decompiler == 11)
+                BytecodeViewer.viewer.panelGroup3.setSelected(BytecodeViewer.viewer.asmText3.getModel(), true);
 
             BytecodeViewer.viewer.refreshOnChange.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 84, false)));
 
@@ -374,8 +406,8 @@ public class Settings {
                 BytecodeViewer.viewer.setExtendedState(JFrame.MAXIMIZED_BOTH);
                 BytecodeViewer.viewer.isMaximized = true;
             }
-            BytecodeViewer.viewer.autoCompileSmali.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 86, false)));
-            BytecodeViewer.viewer.autoCompileOnRefresh.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 87, false)));
+            //86 is deprecated
+            //87 is deprecated
             BytecodeViewer.lastDirectory = DiskReader.loadString(BytecodeViewer.settingsName, 88, false);
             BytecodeViewer.python = DiskReader.loadString(BytecodeViewer.settingsName, 89, false);
             BytecodeViewer.rt = DiskReader.loadString(BytecodeViewer.settingsName, 90, false);
@@ -401,7 +433,7 @@ public class Settings {
             BytecodeViewer.viewer.panel2JDGUI_E.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 110, false)));
             BytecodeViewer.viewer.panel3JDGUI_E.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 111, false)));
             BytecodeViewer.viewer.fontSpinner.setValue(Integer.parseInt(DiskReader.loadString(BytecodeViewer.settingsName, 112, false)));
-            BytecodeViewer.deleteForiegnLibraries = Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 113, false));
+            BytecodeViewer.deleteForeignLibraries = Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 113, false));
             decompiler = Integer.parseInt(DiskReader.loadString(BytecodeViewer.settingsName, 114, false));
             if (decompiler == 0)
                 BytecodeViewer.viewer.apkConversionGroup.setSelected(BytecodeViewer.viewer.apkConversionDex.getModel(), true);
@@ -410,6 +442,15 @@ public class Settings {
             BytecodeViewer.python3 = DiskReader.loadString(BytecodeViewer.settingsName, 115, false);
             BytecodeViewer.javac = DiskReader.loadString(BytecodeViewer.settingsName, 116, false);
             BytecodeViewer.java = DiskReader.loadString(BytecodeViewer.settingsName, 117, false);
+            BytecodeViewer.viewer.compileOnSave.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 118, false)));
+            BytecodeViewer.viewer.autoCompileOnRefresh.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 119, false)));
+            BytecodeViewer.warnForEditing = Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 120, false));
+            BytecodeViewer.viewer.showFileInTabTitle.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 121, false)));
+            BytecodeViewer.displayParentInTab = BytecodeViewer.viewer.showFileInTabTitle.isSelected();
+            BytecodeViewer.viewer.forcePureAsciiAsText.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 122, false)));
+            BytecodeViewer.viewer.synchronizedViewing.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 123, false)));
+            BytecodeViewer.viewer.showClassMethods.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 124, false)));
+            BytecodeViewer.viewer.ren.setSelected(Boolean.parseBoolean(DiskReader.loadString(BytecodeViewer.settingsName, 125, false)));
         } catch (Exception e) {
             //ignore because errors are expected, first start up and outdated settings.
             //e.printStackTrace();

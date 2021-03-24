@@ -1,6 +1,10 @@
-/bin/
-.project
-*.iml
+.bin/
 .idea/
-out/
+.out/
+/out
+.gradle/
+.classpath
+.project
 .DS_Store
+*.iml
+/out/

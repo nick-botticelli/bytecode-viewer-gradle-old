@@ -12,6 +12,7 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 
 import the.bytecode.club.bytecodeviewer.decompilers.Decompiler;
+import the.bytecode.club.bytecodeviewer.util.JarUtils;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -49,7 +50,7 @@ public class CommandLineInput {
 
     static {
         options.addOption("help", false, "prints the help menu.");
-        options.addOption("list", false, "lists all the available decompilers for BCV " + BytecodeViewer.version + ".");
+        options.addOption("list", false, "lists all the available decompilers for BCV " + BytecodeViewer.VERSION + ".");
         options.addOption("decompiler", true, "sets the decompiler, procyon by default.");
         options.addOption("i", true, "sets the input.");
         options.addOption("o", true, "sets the output.");
@@ -182,6 +183,12 @@ public class CommandLineInput {
             //if its zip/jar/apk/dex attempt unzip as whole zip
             //if its just class allow any
 
+            File tempZip = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + "temp_"+BytecodeViewer.getRandomizedName()+".jar");
+            if (tempZip.exists())
+                tempZip.delete();
+
+            JarUtils.saveAsJarClassesOnly(BytecodeViewer.getLoadedClasses(), tempZip.getAbsolutePath());
+
             if (decompiler.equalsIgnoreCase("procyon")) {
                 System.out.println("Decompiling " + input.getAbsolutePath() + " with Procyon");
                 BytecodeViewer.openFiles(new File[]{input}, false);
@@ -189,7 +196,7 @@ public class CommandLineInput {
                 Thread.sleep(5 * 1000);
 
                 if (target.equalsIgnoreCase("all")) {
-                    Decompiler.procyon.decompileToZip(output.getAbsolutePath());
+                    Decompiler.procyon.decompileToZip(tempZip.getAbsolutePath(), output.getAbsolutePath());
                 } else {
                     try {
                         ClassNode cn = BytecodeViewer.getClassNode(target);
@@ -207,7 +214,7 @@ public class CommandLineInput {
                 Thread.sleep(5 * 1000);
 
                 if (target.equalsIgnoreCase("all")) {
-                    Decompiler.cfr.decompileToZip(output.getAbsolutePath());
+                    Decompiler.cfr.decompileToZip(tempZip.getAbsolutePath(), output.getAbsolutePath());
                 } else {
                     try {
                         ClassNode cn = BytecodeViewer.getClassNode(target);
@@ -225,7 +232,7 @@ public class CommandLineInput {
                 Thread.sleep(5 * 1000);
 
                 if (target.equalsIgnoreCase("all")) {
-                    Decompiler.fernflower.decompileToZip(output.getAbsolutePath());
+                    Decompiler.fernflower.decompileToZip(tempZip.getAbsolutePath(), output.getAbsolutePath());
                 } else {
                     try {
                         ClassNode cn = BytecodeViewer.getClassNode(target);
@@ -243,7 +250,7 @@ public class CommandLineInput {
                 Thread.sleep(5 * 1000);
 
                 if (target.equalsIgnoreCase("all")) {
-                    Decompiler.krakatau.decompileToZip(output.getAbsolutePath());
+                    Decompiler.krakatau.decompileToZip(tempZip.getAbsolutePath(), output.getAbsolutePath());
                 } else {
                     try {
                         ClassNode cn = BytecodeViewer.getClassNode(target);
@@ -314,7 +321,8 @@ public class CommandLineInput {
             }
 
             System.out.println("Finished.");
-            System.out.println("Bytecode Viewer CLI v" + BytecodeViewer.version + " by @Konloch - http://bytecodeviewer.com");
+            System.out.println("Bytecode Viewer CLI v" + BytecodeViewer.VERSION + " by @Konloch - http://bytecodeviewer.com");
+            BytecodeViewer.canExit = true;
             System.exit(0);
         } catch (Exception e) {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);

@@ -43,7 +43,8 @@ public class SecurityMan extends SecurityManager {
                 executedClass.equals("the.bytecode.club.bytecodeviewer.decompilers.FernFlowerDecompiler") ||
                 executedClass.equals("the.bytecode.club.bytecodeviewer.decompilers.JDGUIDecompiler") ||
                 executedClass.equals("the.bytecode.club.bytecodeviewer.compilers.KrakatauAssembler") ||
-                executedClass.equals("the.bytecode.club.bytecodeviewer.Enjarify") ||
+                executedClass.equals("the.bytecode.club.bytecodeviewer.util.Enjarify") ||
+                executedClass.equals("the.bytecode.club.bytecodeviewer.util.APKTool") ||
                 executedClass.equals("the.bytecode.club.bytecodeviewer.BytecodeViewer") ||
                 executedClass.equals("the.bytecode.club.bytecodeviewer.compilers.JavaCompiler")) {
             blocking = false;
@@ -60,7 +61,8 @@ public class SecurityMan extends SecurityManager {
                 "attrib",
                 "python",
                 "pypy",
-                "java"
+                "java",
+                "brut_util",
         };
         boolean allow = false;
 
@@ -71,7 +73,7 @@ public class SecurityMan extends SecurityManager {
 
         if (allow && !blocking) {
             System.out.println("Allowing exec:" + cmd);
-        } else throw new SecurityException("BCV is awesome, blocking " + cmd);
+        } else throw new SecurityException("BCV is awesome, blocking("+blocking+") exec " + cmd);
     }
 
     @Override
@@ -121,6 +123,10 @@ public class SecurityMan extends SecurityManager {
 
     @Override
     public void checkExit(int status) {
+        if(!BytecodeViewer.canExit)
+        {
+            throw new SecurityException("BCV is awesome, blocking System.exit("+status+");");
+        }
     }
 
     @Override

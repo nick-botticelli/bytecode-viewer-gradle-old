@@ -10,8 +10,8 @@ import org.apache.commons.io.FileUtils;
 
 import me.konloch.kontainer.io.DiskWriter;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.JarUtils;
-import the.bytecode.club.bytecodeviewer.MiscUtils;
+import the.bytecode.club.bytecodeviewer.util.JarUtils;
+import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -50,12 +50,12 @@ public class JavaCompiler extends Compiler {
         tempD.mkdirs();
         new File(fileStart2).mkdirs();
 
-        if (BytecodeViewer.javac.equals("")) {
-            BytecodeViewer.showMessage("You need to set your Javac path, this requires the JDK to be downloaded." + BytecodeViewer.nl + "(C:/programfiles/Java/JRE_xx/bin/javac.exe)");
+        if (BytecodeViewer.javac.equals("") || !new File(BytecodeViewer.javac).exists()) {
+            BytecodeViewer.showMessage("You need to set your Javac path, this requires the JDK to be downloaded." + BytecodeViewer.nl + "(C:/programfiles/Java/JDK_xx/bin/javac.exe)");
             BytecodeViewer.viewer.javac();
         }
 
-        if (BytecodeViewer.javac.equals("")) {
+        if (BytecodeViewer.javac.equals("") || !new File(BytecodeViewer.javac).exists()) {
             BytecodeViewer.showMessage("You need to set Javac!");
             return null;
         }
@@ -80,7 +80,7 @@ public class JavaCompiler extends Compiler {
                 pb = new ProcessBuilder(
                         BytecodeViewer.javac,
                         "-d", fileStart2,
-                        "-classpath", cp.getAbsolutePath() + ";" + BytecodeViewer.library,
+                        "-classpath", cp.getAbsolutePath() + System.getProperty("path.separator") + BytecodeViewer.library,
                         java.getAbsolutePath()
                 );
             }
@@ -88,12 +88,42 @@ public class JavaCompiler extends Compiler {
             Process process = pb.start();
             BytecodeViewer.createdProcesses.add(process);
 
+            Thread failSafe = new Thread()
+            {
+                @Override
+                public void run()
+                {
+                    long started = System.currentTimeMillis();
+                    while(System.currentTimeMillis()-started <= 10_000)
+                    {
+                        try
+                        {
+                            Thread.sleep(100);
+                        }
+                        catch (InterruptedException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    if(process.isAlive())
+                    {
+                        System.out.println("Force killing javac process, assuming it's gotten stuck");
+                        process.destroyForcibly().destroy();
+                    }
+                }
+            };
+            failSafe.start();
+
+            int exitValue = process.waitFor();
+
             //Read out dir output
             InputStream is = process.getInputStream();
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
             String line;
-            while ((line = br.readLine()) != null) {
+            while ((line = br.readLine()) != null)
+            {
                 log += BytecodeViewer.nl + line;
             }
             br.close();
@@ -107,7 +137,6 @@ public class JavaCompiler extends Compiler {
             }
             br.close();
 
-            int exitValue = process.waitFor();
             log += BytecodeViewer.nl + BytecodeViewer.nl + "Exit Value is " + exitValue;
             System.out.println(log);
 

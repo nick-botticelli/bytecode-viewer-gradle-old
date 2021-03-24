@@ -1,47 +1,25 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
-import java.awt.BorderLayout;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.*;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.Map.Entry;
+import com.sun.java.swing.plaf.windows.WindowsTreeUI;
+import org.objectweb.asm.tree.ClassNode;
+import the.bytecode.club.bytecodeviewer.BytecodeViewer;
+import the.bytecode.club.bytecodeviewer.Resources;
+import the.bytecode.club.bytecodeviewer.util.FileChangeNotifier;
+import the.bytecode.club.bytecodeviewer.util.FileContainer;
+import the.bytecode.club.bytecodeviewer.util.FileDrop;
+import the.bytecode.club.bytecodeviewer.util.LazyNameUtil;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.JTree;
+import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.MutableTreeNode;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
-
-import org.objectweb.asm.tree.ClassNode;
-
-import the.bytecode.club.bytecodeviewer.*;
+import javax.swing.tree.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.Rectangle2D;
+import java.io.File;
+import java.util.*;
+import java.util.Map.Entry;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -92,8 +70,12 @@ public class FileNavigationPane extends VisibleComponent implements
                 final String qt = quickSearch.getText();
                 quickSearch.setText("");
 
+                if(qt.isEmpty()) //NOPE
+                    return;
+
 
                 String[] path = null;
+                int found = 0;
 
                 if (qt.contains(".")) {
                     path = qt.split("\\.");
@@ -122,12 +104,18 @@ public class FileNavigationPane extends VisibleComponent implements
                             if (((String) child.getUserObject()).equals(pathName)) {
                                 curNode = child;
                                 if (isLast) {
+                                    System.out.println("Found! " + curNode);
+                                    found++;
+                                    if(found >= 30)
+                                    {
+                                        BytecodeViewer.showMessage("Uh oh, there could be more results but you've triggered the 30 classes at once limit. Try refining your search.");
+                                        return;
+                                    }
                                     final TreePath pathn = new TreePath(curNode.getPath());
                                     tree.setSelectionPath(pathn);
                                     tree.makeVisible(pathn);
                                     tree.scrollPathToVisible(pathn);
                                     openPath(pathn); //auto open
-                                    System.out.println("Found! " + curNode);
                                     break pathLoop;
                                 }
                                 continue pathLoop;
@@ -148,7 +136,7 @@ public class FileNavigationPane extends VisibleComponent implements
                                 if (((String) (node.getUserObject())).toLowerCase().contains(path[path.length - 1].toLowerCase())) {
                                     TreeNode pathArray[] = node.getPath();
                                     int k = 0;
-                                    StringBuffer fullPath = new StringBuffer();
+                                    StringBuilder fullPath = new StringBuilder();
                                     while (pathArray != null
                                             && k < pathArray.length) {
                                         MyTreeNode n = (MyTreeNode) pathArray[k];
@@ -161,6 +149,12 @@ public class FileNavigationPane extends VisibleComponent implements
                                     String fullPathString = fullPath.toString();
                                     if (fullPathString != null && fullPathString.toLowerCase().contains(qt.toLowerCase())) {
                                         System.out.println("Found! " + node);
+                                        found++;
+                                        if(found >= 30)
+                                        {
+                                            BytecodeViewer.showMessage("Uh oh, there could be more results but you've triggered the 30 classes at once limit. Try refining your search.");
+                                            return;
+                                        }
                                         final TreePath pathn = new TreePath(node.getPath());
                                         tree.setSelectionPath(pathn.getParentPath());
                                         tree.setSelectionPath(pathn);
@@ -176,6 +170,60 @@ public class FileNavigationPane extends VisibleComponent implements
         }
     };
 
+    private void showPopMenu(MyTree tree, TreePath selPath, int x, int y) {
+        if (selPath == null) {
+            return;
+        }
+
+        final JPopupMenu pop = new JPopupMenu();
+        pop.add(new AbstractAction("Remove") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TreePath selPath = FileNavigationPane.this.tree.getPathForLocation(x, y);
+                DefaultMutableTreeNode selectNode = (DefaultMutableTreeNode) selPath.getLastPathComponent();
+                Enumeration enumeration = treeRoot.children();
+                while (enumeration.hasMoreElements()) {
+                    DefaultMutableTreeNode node = (DefaultMutableTreeNode) enumeration.nextElement();
+                    if (node.isNodeAncestor(selectNode)) {
+                        DefaultMutableTreeNode root = (DefaultMutableTreeNode) tree.getModel().getRoot();
+                        root.remove(node);
+                        for (FileContainer fileContainer : BytecodeViewer.files) {
+                            if (fileContainer.name.equals(selectNode.toString())) {
+                                removeFile(fileContainer);
+                                break;
+                            }
+                        }
+                        updateTree();
+                        return;
+                    }
+                }
+            }
+        });
+
+        pop.add(new AbstractAction("Expand", WindowsTreeUI.ExpandedIcon.createExpandedIcon()) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TreePath selPath = FileNavigationPane.this.tree.getPathForLocation(x, y);
+                expandAll(tree, selPath, true);
+            }
+        });
+
+        pop.add(new AbstractAction("Collapse", WindowsTreeUI.CollapsedIcon.createCollapsedIcon()) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TreePath selPath = FileNavigationPane.this.tree.getPathForLocation(x, y);
+                expandAll(tree, selPath, false);
+            }
+        });
+
+        pop.show(this.tree, x, y);
+    }
+
+    private void removeFile(FileContainer fileContainer) {
+        BytecodeViewer.files.remove(fileContainer);
+        LazyNameUtil.removeName(fileContainer.name);
+    }
+
     public FileNavigationPane(final FileChangeNotifier fcn) {
         super("ClassNavigation");
         this.fcn = fcn;
@@ -183,6 +231,30 @@ public class FileNavigationPane extends VisibleComponent implements
         tree.setShowsRootHandles(true);
         quickSearch.setForeground(Color.gray);
         setTitle("Files");
+
+        tree.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (e.isMetaDown()) {
+                    MyTree tree = (MyTree) e.getSource();
+                    TreePath selPath = FileNavigationPane.this.tree.getPathForLocation(e.getX(), e.getY());
+                    if (selPath == null) {
+                        return;
+                    }
+
+                    DefaultMutableTreeNode selectNode = (DefaultMutableTreeNode) selPath.getLastPathComponent();
+                    Enumeration enumeration = treeRoot.children();
+                    while (enumeration.hasMoreElements()) {
+                        DefaultMutableTreeNode node = (DefaultMutableTreeNode) enumeration.nextElement();
+                        if (node.isNodeAncestor(selectNode)) {
+                            // pop.show(tree, e.getX(), e.getY());
+                            showPopMenu(tree, selPath, e.getX(), e.getY());
+                            break;
+                        }
+                    }
+                }
+            }
+        });
 
         this.open.addActionListener(new ActionListener() {
             @Override
@@ -196,8 +268,9 @@ public class FileNavigationPane extends VisibleComponent implements
             @Override
             public void actionPerformed(ActionEvent e) {
                 final TreeNode root = (TreeNode) tree.getModel().getRoot();
-                expandAll(tree, new TreePath(root), false);
-                tree.expandPath(new TreePath(root));
+                final TreePath path = new TreePath(root);
+                expandAll(tree, path, false);
+                tree.expandPath(path);
             }
         });
 
@@ -221,29 +294,38 @@ public class FileNavigationPane extends VisibleComponent implements
 
         this.tree.addKeyListener(new KeyListener() {
             @Override
-            public void keyReleased(KeyEvent arg0) {
-                if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-                    if (arg0.getSource() instanceof MyTree) {
-                        MyTree tree = (MyTree) arg0.getSource();
-                        openPath(tree.getSelectionPath());
-                    }
-                } else {
-                    cancel = true;
-                }
+            public void keyReleased(KeyEvent e) {
             }
 
             @Override
             public void keyTyped(KeyEvent e) {
-                quickSearch.grabFocus();
-                quickSearch.setText("" + e.getKeyChar()); // fuck
-                cancel = true;
             }
 
             @Override
             public void keyPressed(KeyEvent e) {
-                quickSearch.grabFocus();
-                quickSearch.setText("" + e.getKeyChar()); // fuck
-                cancel = true;
+                System.out.println((int)e.getKeyChar());
+                if (e.getKeyCode() == KeyEvent.VK_ENTER)
+                {
+                    if (e.getSource() instanceof MyTree)
+                    {
+                        MyTree tree = (MyTree) e.getSource();
+                        openPath(tree.getSelectionPath());
+                    }
+                }
+                else if((int)e.getKeyChar() != 0 &&(int)e.getKeyChar() != 8 &&(int)e.getKeyChar() != 127 && (int)e.getKeyChar() != 65535 && !e.isControlDown() && !e.isAltDown())
+                {
+                    quickSearch.grabFocus();
+                    quickSearch.setText("" + e.getKeyChar());
+                    cancel = true;
+                }
+                else if(e.isControlDown() && (int)e.getKeyChar() == 6) //ctrl + f
+                {
+                    quickSearch.grabFocus();
+                }
+                else
+                {
+                    cancel = true;
+                }
             }
         });
 
@@ -287,12 +369,12 @@ public class FileNavigationPane extends VisibleComponent implements
         new FileDrop(this, this);
     }
 
-    public void openClassFileToWorkSpace(final String name, final ClassNode node) {
-        fcn.openClassFile(name, node);
+    public void openClassFileToWorkSpace(final FileContainer container, final String name, final ClassNode node) {
+        fcn.openClassFile(container, name, node);
     }
 
-    public void openFileToWorkSpace(String name, byte[] contents) {
-        fcn.openFile(name, contents);
+    public void openFileToWorkSpace(final FileContainer container, String name, byte[] contents) {
+        fcn.openFile(container, name, contents);
     }
 
     @Override
@@ -484,6 +566,7 @@ public class FileNavigationPane extends VisibleComponent implements
                 return hash;
             }
         };
+
     }
 
     /**
@@ -525,10 +608,13 @@ public class FileNavigationPane extends VisibleComponent implements
         tree.updateUI();
     }
 
-    public void openPath(TreePath path) {
-        if (path == null)
+    public void openPath(TreePath path)
+    {
+        if (path == null || path.getPathCount() == 1) {
             return;
-        final StringBuffer nameBuffer = new StringBuffer();
+        }
+
+        final StringBuilder nameBuffer = new StringBuilder();
         for (int i = 2; i < path.getPathCount(); i++) {
             nameBuffer.append(path.getPathComponent(i));
             if (i < path.getPathCount() - 1) {
@@ -536,14 +622,29 @@ public class FileNavigationPane extends VisibleComponent implements
             }
         }
 
+        String cheapHax = path.getPathComponent(1).toString();
+        FileContainer container = null;
+
+        for(FileContainer c : BytecodeViewer.files)
+        {
+            if(c.name.equals(cheapHax))
+                container = c;
+        }
+
         String name = nameBuffer.toString();
-        if (name.endsWith(".class")) {
-            final ClassNode cn = BytecodeViewer.getClassNode(name.substring(0, name.length() - ".class".length()));
+        if (name.endsWith(".class"))
+        {
+
+            final ClassNode cn = BytecodeViewer.getClassNode(container, name.substring(0, name.length() - ".class".length()));
             if (cn != null) {
-                openClassFileToWorkSpace(nameBuffer.toString(), cn);
+                openClassFileToWorkSpace(container, nameBuffer.toString(), cn);
+            }
+            else
+            {
+                openFileToWorkSpace(container, nameBuffer.toString(), BytecodeViewer.getFileContents(nameBuffer.toString()));
             }
         } else {
-            openFileToWorkSpace(nameBuffer.toString(), BytecodeViewer.getFileContents(nameBuffer.toString()));
+            openFileToWorkSpace(container, nameBuffer.toString(), BytecodeViewer.getFileContents(nameBuffer.toString()));
         }
     }
 
@@ -569,7 +670,7 @@ public class FileNavigationPane extends VisibleComponent implements
                 the.bytecode.club.bytecodeviewer.gui.FileNavigationPane.MyTreeNode node = (the.bytecode.club.bytecodeviewer.gui.FileNavigationPane.MyTreeNode) value;
                 String name = node.toString().toLowerCase();
 
-                if (name.endsWith(".jar")) {
+                if (name.endsWith(".jar") || name.endsWith(".war")) {
                     setIcon(Resources.jarIcon);
                 } else if (name.endsWith(".zip")) {
                     setIcon(Resources.zipIcon);
@@ -593,7 +694,7 @@ public class FileNavigationPane extends VisibleComponent implements
                     setIcon(Resources.textIcon);
                 } else if (name.equals("decoded resources")) {
                     setIcon(Resources.decodedIcon);
-                } else if (name.endsWith(".properties") || name.endsWith(".xml") || name.endsWith(".mf") || name.endsWith(".config") || name.endsWith(".cfg")) {
+                } else if (name.endsWith(".properties") || name.endsWith(".xml") || name.endsWith(".jsp") || name.endsWith(".mf") || name.endsWith(".config") || name.endsWith(".cfg")) {
                     setIcon(Resources.configIcon);
                 } else if (node.getChildCount() <= 0) { //random file
                     setIcon(Resources.fileIcon);

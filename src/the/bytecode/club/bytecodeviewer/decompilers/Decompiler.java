@@ -34,12 +34,14 @@ public abstract class Decompiler {
     public final static Decompiler fernflower = new FernFlowerDecompiler();
     public final static Decompiler procyon = new ProcyonDecompiler();
     public final static Decompiler cfr = new CFRDecompiler();
-    public final static Decompiler krakatau = new KrakatauDecompiler();
-    public final static Decompiler krakatauDA = new KrakatauDisassembler();
-    public final static Decompiler smali = new SmaliDisassembler();
+    public final static KrakatauDecompiler krakatau = new KrakatauDecompiler();
+    public final static KrakatauDisassembler krakatauDA = new KrakatauDisassembler();
+    public final static SmaliDisassembler smali = new SmaliDisassembler();
     public final static Decompiler jdgui = new JDGUIDecompiler();
+    public final static Decompiler jadx = new JADXDecompiler();
+    public final static Decompiler textifier = new ASMTextifierDecompiler();
 
     public abstract String decompileClassNode(ClassNode cn, byte[] b);
 
-    public abstract void decompileToZip(String zipName);
+    public abstract void decompileToZip(String sourceJar, String zipName);
 }
