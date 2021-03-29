@@ -167,7 +167,7 @@ public class CFRDecompiler extends Decompiler {
             if (f.isDirectory())
                 return findFile(f.listFiles());
             else {
-                String s = "";
+                String s;
                 try {
                     s = DiskReader.loadAsString(f.getAbsolutePath());
                 } catch (Exception e) {
@@ -298,7 +298,7 @@ public class CFRDecompiler extends Decompiler {
                         .isSelected()),};
     }
 
-    byte[] buffer = new byte[1024];
+    //byte[] buffer = new byte[1024];
 
     @Override
     public void decompileToZip(String sourceJar, String zipName)
@@ -321,10 +321,9 @@ public class CFRDecompiler extends Decompiler {
         fuck.delete();
     }
 
-    @SuppressWarnings("resource")
     public void zip(File directory, File zipfile) throws IOException {
         java.net.URI base = directory.toURI();
-        Deque<File> queue = new LinkedList<File>();
+        Deque<File> queue = new LinkedList<>();
         queue.push(directory);
         OutputStream out = new FileOutputStream(zipfile);
         Closeable res = out;
@@ -365,11 +364,8 @@ public class CFRDecompiler extends Decompiler {
     }
 
     private static void copy(File file, OutputStream out) throws IOException {
-        InputStream in = new FileInputStream(file);
-        try {
+        try (InputStream in = new FileInputStream(file)) {
             copy(in, out);
-        } finally {
-            in.close();
         }
     }
 }

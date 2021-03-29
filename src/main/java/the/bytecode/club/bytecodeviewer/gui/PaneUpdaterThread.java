@@ -64,29 +64,25 @@ public abstract class PaneUpdaterThread extends Thread
         if(scrollPane == null)
             return;
 
-        scrollPane.addMouseWheelListener(new MouseWheelListener()
+        scrollPane.addMouseWheelListener(e ->
         {
-            @Override
-            public void mouseWheelMoved(MouseWheelEvent e)
-            {
-                if(panelArea == null || panelArea.getText().isEmpty())
-                    return;
+            if(panelArea == null || panelArea.getText().isEmpty())
+                return;
 
-                if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
-                {
-                    Font font = panelArea.getFont();
-                    int size = font.getSize();
-                    if(e.getWheelRotation() > 0)
-                    { //Up
-                        panelArea.setFont(new Font(font.getName(), font.getStyle(), --size >= 2 ? --size : 2));
-                    }
-                    else
-                    { //Down
-                        panelArea.setFont(new Font(font.getName(), font.getStyle(), ++size));
-                    }
+            if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
+            {
+                Font font = panelArea.getFont();
+                int size = font.getSize();
+                if(e.getWheelRotation() > 0)
+                { //Up
+                    panelArea.setFont(new Font(font.getName(), font.getStyle(), --size >= 2 ? --size : 2));
                 }
-                e.consume();
+                else
+                { //Down
+                    panelArea.setFont(new Font(font.getName(), font.getStyle(), ++size));
+                }
             }
+            e.consume();
         });
     }
 
@@ -242,28 +238,26 @@ public abstract class PaneUpdaterThread extends Thread
                     methodsList.addItem(line);
                 }
                 methodsList.setRenderer(new PaneUpdaterThread.MethodsRenderer());
-                methodsList.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        int line = (int) methodsList.getSelectedItem();
+                methodsList.addActionListener(e ->
+                {
+                    int line = (int) methodsList.getSelectedItem();
 
-                        RSyntaxTextArea area = null;
-                        switch(paneId)
-                        {
-                            case 0:
-                                area = viewer.t1.panelArea;
-                                break;
-                            case 1:
-                                area = viewer.t2.panelArea;
-                                break;
-                            case 2:
-                                area = viewer.t3.panelArea;
-                                break;
-                        }
-
-                        if(area != null)
-                            ClassViewer.selectMethod(area, line);
+                    RSyntaxTextArea area = null;
+                    switch(paneId)
+                    {
+                        case 0:
+                            area = viewer.t1.panelArea;
+                            break;
+                        case 1:
+                            area = viewer.t2.panelArea;
+                            break;
+                        case 2:
+                            area = viewer.t3.panelArea;
+                            break;
                     }
+
+                    if(area != null)
+                        ClassViewer.selectMethod(area, line);
                 });
 
                 JPanel panel = new JPanel(new BorderLayout());

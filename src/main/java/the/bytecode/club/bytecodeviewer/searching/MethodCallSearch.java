@@ -114,9 +114,9 @@ public class MethodCallSearch implements SearchTypeDetails {
                         String desc2 = method.desc;
                         try {
                             desc2 = Type.getType(method.desc).toString();
-                            if (desc2 == null || desc2.equals("null"))
+                            if (desc2.equals("null"))
                                 desc2 = method.desc;
-                        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+                        } catch (java.lang.ArrayIndexOutOfBoundsException ignored) {
 
                         }
                         srn.notifyOfResult(container.name+">"+node.name
@@ -139,10 +139,9 @@ public class MethodCallSearch implements SearchTypeDetails {
                         String desc2 = method.desc;
                         try {
                             desc2 = Type.getType(method.desc).toString();
-                            if (desc2 == null || desc2.equals("null"))
+                            if (desc2.equals("null"))
                                 desc2 = method.desc;
-                        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
-
+                        } catch (java.lang.ArrayIndexOutOfBoundsException ignored) {
                         }
                         srn.notifyOfResult(container.name+">"+node.name
                                 + "."

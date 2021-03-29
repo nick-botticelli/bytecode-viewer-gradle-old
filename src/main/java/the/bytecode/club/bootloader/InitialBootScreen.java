@@ -7,7 +7,6 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowStateListener;
 import java.io.IOException;
 
 import javax.swing.JEditorPane;
@@ -101,7 +100,6 @@ public class InitialBootScreen extends JFrame {
     }
 
     static String convertStreamToString(java.io.InputStream is) throws IOException {
-        @SuppressWarnings("resource")
         java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
         String string = s.hasNext() ? s.next() : "";
         is.close();

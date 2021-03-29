@@ -1,7 +1,5 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
-import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,7 +9,7 @@ import java.awt.*;
 public class DelayTabbedPaneThread extends Thread
 {
     public boolean stopped = false;
-    private TabbedPane pane;
+    private final TabbedPane pane;
 
     public DelayTabbedPaneThread(TabbedPane pane)
     {
@@ -31,19 +29,14 @@ public class DelayTabbedPaneThread extends Thread
         }
         if(!stopped)
         {
-            SwingUtilities.invokeLater(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    if(stopped)
-                        return;
+            SwingUtilities.invokeLater(() -> {
+                if(stopped)
+                    return;
 
-                    pane.label.setOpaque(true);
-                    pane.label.setBackground(Color.MAGENTA);
-                    pane.label.updateUI();
-            }
-            });
+                pane.label.setOpaque(true);
+                pane.label.setBackground(Color.MAGENTA);
+                pane.label.updateUI();
+        });
         }
     }
 }

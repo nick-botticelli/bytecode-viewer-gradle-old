@@ -50,9 +50,9 @@ public class Boot {
     public static boolean downloading = false;
 
     private static InitialBootScreen screen;
-    private static List<String> libsList = new ArrayList<String>();
-    private static List<String> libsFileList = new ArrayList<String>();
-    private static List<String> urlList = new ArrayList<String>();
+    private static List<String> libsList = new ArrayList<>();
+    private static List<String> libsFileList = new ArrayList<>();
+    private static List<String> urlList = new ArrayList<>();
 
     static {
         try {
@@ -68,30 +68,15 @@ public class Boot {
         ILoader<?> loader = findLoader();
 
         if (!CLI)
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    screen.setVisible(true);
-                }
-            });
+            SwingUtilities.invokeLater(() -> screen.setVisible(true));
 
-        create(loader, args.length > 0 ? Boolean.valueOf(args[0]) : true);
+        create(loader, args.length <= 0 || Boolean.parseBoolean(args[0]));
 
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                screen.setVisible(false);
-            }
-        });
+        SwingUtilities.invokeLater(() -> screen.setVisible(false));
     }
 
     public static void hide() {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                screen.setVisible(false);
-            }
-        });
+        SwingUtilities.invokeLater(() -> screen.setVisible(false));
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
@@ -125,7 +110,7 @@ public class Boot {
         int completedCheck = 0;
 
         for (String s : urlList) {
-            String fileName = s.substring("https://github.com/Konloch/bytecode-viewer/blob/master/libs/".length(), s.length());
+            String fileName = s.substring("https://github.com/Konloch/bytecode-viewer/blob/master/libs/".length());
             File file = new File(libsDirectory, fileName);
 
             boolean passed = false;
@@ -223,7 +208,7 @@ public class Boot {
             File f = new File(s);
             boolean delete = true;
             for (String urlS : urlList) {
-                String fileName = urlS.substring("https://github.com/Konloch/bytecode-viewer/blob/master/libs/".length(), urlS.length());
+                String fileName = urlS.substring("https://github.com/Konloch/bytecode-viewer/blob/master/libs/".length());
                 if (fileName.equals(f.getName()))
                     delete = false;
             }
@@ -244,7 +229,7 @@ public class Boot {
                     System.out.println("Loading library " + f.getName());
 
                     try {
-                        ExternalResource res = new EmptyExternalResource<Object>(f.toURI().toURL());
+                        ExternalResource res = new EmptyExternalResource<>(f.toURI().toURL());
                         loader.bind(res);
                         System.out.println("Succesfully loaded " + f.getName());
                     } catch (Exception e) {
@@ -293,12 +278,7 @@ public class Boot {
     }
 
     private static void bootstrap() {
-        AbstractLoaderFactory.register(new LoaderFactory<Object>() {
-            @Override
-            public ILoader<Object> spawnLoader() {
-                return new ClassPathLoader();
-            }
-        });
+        AbstractLoaderFactory.register(ClassPathLoader::new);
     }
 
     public static void populateUrlList() throws Exception {
@@ -311,7 +291,8 @@ public class Boot {
     }
 
     public static void populateLibsDirectory() {
-        if (libsDir() != null && libsDir().exists())
+        libsDir();
+        if (libsDir().exists())
             for (File f : libsDir().listFiles()) {
                 libsList.add(f.getName());
                 libsFileList.add(f.getAbsolutePath());
@@ -339,7 +320,7 @@ public class Boot {
                 InputStream is = BytecodeViewer.class.getClassLoader().getResourceAsStream("Krakatau-" + BytecodeViewer.krakatauVersion + ".zip");
                 FileOutputStream baos = new FileOutputStream(temp);
 
-                int r = 0;
+                int r;
                 byte[] buffer = new byte[8192];
                 while ((r = is.read(buffer)) >= 0)
                 {
@@ -379,7 +360,7 @@ public class Boot {
                 InputStream is = BytecodeViewer.class.getClassLoader().getResourceAsStream("enjarify-" + BytecodeViewer.enjarifyVersion + ".zip");
                 FileOutputStream baos = new FileOutputStream(temp);
 
-                int r = 0;
+                int r;
                 byte[] buffer = new byte[8192];
                 while ((r = is.read(buffer)) >= 0)
                 {
@@ -401,7 +382,7 @@ public class Boot {
 
     public static void downloadZipsOnly() throws Exception {
         for (String s : urlList) {
-            String fileName = s.substring("https://github.com/Konloch/bytecode-viewer/blob/master/libs/".length(), s.length());
+            String fileName = s.substring("https://github.com/Konloch/bytecode-viewer/blob/master/libs/".length());
             File file = new File(libsDir(), fileName);
 
             boolean passed = false;

@@ -11,8 +11,6 @@ import java.awt.Dimension;
 import javax.swing.JScrollPane;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
@@ -72,7 +70,7 @@ public class SystemErrConsole extends JFrame {
         scrollPane.setViewportView(textArea);
         textArea.addKeyListener(new KeyListener() {
             public void keyPressed(KeyEvent e) {
-                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
                     field.requestFocus();
                 }
 
@@ -80,11 +78,11 @@ public class SystemErrConsole extends JFrame {
             }
 
             @Override
-            public void keyReleased(KeyEvent arg0) {
+            public void keyReleased(KeyEvent event) {
             }
 
             @Override
-            public void keyTyped(KeyEvent arg0) {
+            public void keyTyped(KeyEvent event) {
             }
         });
 
@@ -98,32 +96,22 @@ public class SystemErrConsole extends JFrame {
         panel.add(buttonPane, BorderLayout.WEST);
         panel.add(field, BorderLayout.CENTER);
         panel.add(check, BorderLayout.EAST);
-        searchNext.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent arg0) {
-                search(field.getText(), true);
-            }
-        });
+        searchNext.addActionListener(event -> search(field.getText(), true));
 
-        searchPrev.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent arg0) {
-                search(field.getText(), false);
-            }
-        });
+        searchPrev.addActionListener(event -> search(field.getText(), false));
         field.addKeyListener(new KeyListener() {
             @Override
-            public void keyReleased(KeyEvent arg0) {
-                if (arg0.getKeyCode() == KeyEvent.VK_ENTER)
+            public void keyReleased(KeyEvent event) {
+                if (event.getKeyCode() == KeyEvent.VK_ENTER)
                     search(field.getText(), true);
             }
 
             @Override
-            public void keyPressed(KeyEvent arg0) {
+            public void keyPressed(KeyEvent event) {
             }
 
             @Override
-            public void keyTyped(KeyEvent arg0) {
+            public void keyTyped(KeyEvent event) {
             }
         });
         scrollPane.setColumnHeaderView(panel);
@@ -143,22 +131,22 @@ public class SystemErrConsole extends JFrame {
 
     public void pretty() {
         s.update();
-        String[] test = null;
+        String[] test;
         if (textArea.getText().split("\n").length >= 2)
             test = textArea.getText().split("\n");
         else
             test = textArea.getText().split("\r");
 
-        String replace = "";
+        StringBuilder replace = new StringBuilder();
         for (String s : test) {
             if (s.startsWith("File '")) {
                 String[] split = s.split("'");
                 String start = split[0] + "'" + split[1] + "', ";
-                s = s.substring(start.length(), s.length());
+                s = s.substring(start.length());
             }
-            replace += s + BytecodeViewer.nl;
+            replace.append(s).append(BytecodeViewer.nl);
         }
-        setText(replace);
+        setText(replace.toString());
     }
 
     /**
@@ -178,7 +166,7 @@ public class SystemErrConsole extends JFrame {
                     .getElementIndex(area.getCaretPosition()) + 1;
             int currentLine = 1;
             boolean canSearch = false;
-            String[] test = null;
+            String[] test;
             if (area.getText().split("\n").length >= 2)
                 test = area.getText().split("\n");
             else
@@ -310,9 +298,9 @@ public class SystemErrConsole extends JFrame {
         textArea.setCaretPosition(0);
     }
 
-    class CustomOutputStream extends OutputStream {
-        private StringBuilder sb = new StringBuilder();
-        private JTextArea textArea;
+    static class CustomOutputStream extends OutputStream {
+        private final StringBuilder sb = new StringBuilder();
+        private final JTextArea textArea;
 
         public CustomOutputStream(JTextArea textArea) {
             this.textArea = textArea;
@@ -323,8 +311,8 @@ public class SystemErrConsole extends JFrame {
         }
 
         @Override
-        public void write(int b) throws IOException {
-            sb.append(String.valueOf((char) b));
+        public void write(int b) {
+            sb.append((char) b);
         }
     }
 

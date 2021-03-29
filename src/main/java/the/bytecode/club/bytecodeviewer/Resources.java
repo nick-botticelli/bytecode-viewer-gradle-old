@@ -86,7 +86,7 @@ public class Resources {
         decodedIcon = new ImageIcon(Resources.class.getResource("/resources/decoded.png"));
         javaIcon = new ImageIcon(Resources.class.getResource("/resources/java.png"));
 
-        iconList = new ArrayList<BufferedImage>();
+        iconList = new ArrayList<>();
         int size = 16;
         for (int i = 0; i < 24; i++) {
             iconList.add(resize(icon, size, size));

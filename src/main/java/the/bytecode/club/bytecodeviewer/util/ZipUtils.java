@@ -57,7 +57,7 @@ public final class ZipUtils {
 
         //now create all files
         for (Enumeration<JarEntry> enums = jar.entries(); enums.hasMoreElements(); ) {
-            JarEntry entry = (JarEntry) enums.nextElement();
+            JarEntry entry = enums.nextElement();
 
             String fileName = destinationDir + File.separator + entry.getName();
             File f = new File(fileName);
@@ -84,8 +84,7 @@ public final class ZipUtils {
 
         try {
             jar.close();
-        } catch (Exception e) {
-
+        } catch (Exception ignored) {
         }
     }
 
@@ -114,8 +113,8 @@ public final class ZipUtils {
     }
 
     public static void zipFolder(String srcFolder, String destZipFile, String ignore) throws Exception {
-        ZipOutputStream zip = null;
-        FileOutputStream fileWriter = null;
+        ZipOutputStream zip;
+        FileOutputStream fileWriter;
 
         fileWriter = new FileOutputStream(destZipFile);
         zip = new ZipOutputStream(fileWriter);
@@ -126,8 +125,8 @@ public final class ZipUtils {
     }
 
     public static void zipFolderAPKTool(String srcFolder, String destZipFile) throws Exception {
-        ZipOutputStream zip = null;
-        FileOutputStream fileWriter = null;
+        ZipOutputStream zip;
+        FileOutputStream fileWriter;
 
         fileWriter = new FileOutputStream(destZipFile);
         zip = new ZipOutputStream(fileWriter);
@@ -147,7 +146,7 @@ public final class ZipUtils {
             byte[] buf = new byte[1024];
             int len;
             FileInputStream in = new FileInputStream(srcFile);
-            ZipEntry entry = null;
+            ZipEntry entry;
             if (ignore == null)
                 entry = new ZipEntry(path + "/" + folder.getName());
             else
@@ -179,7 +178,7 @@ public final class ZipUtils {
             byte[] buf = new byte[1024];
             int len;
             FileInputStream in = new FileInputStream(srcFile);
-            ZipEntry entry = null;
+            ZipEntry entry;
 
             entry = new ZipEntry(path + "/" + folder.getName());
             zip.putNextEntry(entry);

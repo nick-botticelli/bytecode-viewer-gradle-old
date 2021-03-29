@@ -3,11 +3,7 @@ package the.bytecode.club.bytecodeviewer.gui;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
@@ -103,31 +99,23 @@ public class TabbedPane extends JPanel {
         JPopupMenu pop_up = new JPopupMenu();
         JMenuItem closealltab = new JMenuItem("Close All But This: " + name);
         JMenuItem closetab = new JMenuItem("Close Tab: " + name);
-        closetab.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String name = e.getActionCommand().split(": ")[1];
-                final int i = pane.indexOfTab(name);
-                if (i != -1)
-                    pane.remove(i);
-            }
+        closetab.addActionListener(e -> {
+            String name12 = e.getActionCommand().split(": ")[1];
+            final int i = pane.indexOfTab(name12);
+            if (i != -1)
+                pane.remove(i);
         });
-        closealltab.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String name = e.getActionCommand().split(": ")[1];
-                boolean removedAll = false;
-                while (!removedAll) {
-                    int thisID = pane.indexOfTab(name);
-                    if (pane.getTabCount() <= 1) {
-                        removedAll = true;
-                        return;
-                    }
-                    if (thisID != 0)
-                        pane.remove(0);
-                    else
-                        pane.remove(1);
+        closealltab.addActionListener(e -> {
+            String name1 = e.getActionCommand().split(": ")[1];
+            while (true) {
+                int thisID = pane.indexOfTab(name1);
+                if (pane.getTabCount() <= 1) {
+                    return;
                 }
+                if (thisID != 0)
+                    pane.remove(0);
+                else
+                    pane.remove(1);
             }
         });
 
@@ -139,7 +127,7 @@ public class TabbedPane extends JPanel {
         button.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getModifiers() == 8) {
+                if (e.getModifiersEx() == InputEvent.ALT_DOWN_MASK) {
                     if (System.currentTimeMillis() - zero >= 100) {
                         zero = System.currentTimeMillis();
                         final int i = pane.indexOfTabComponent(TabbedPane.this);

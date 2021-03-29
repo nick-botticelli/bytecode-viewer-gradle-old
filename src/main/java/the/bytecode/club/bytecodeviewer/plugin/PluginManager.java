@@ -45,7 +45,7 @@ import the.bytecode.club.bytecodeviewer.plugin.strategies.RubyPluginLaunchStrate
  */
 public final class PluginManager {
 
-    private static final Map<String, PluginLaunchStrategy> launchStrategies = new HashMap<String, PluginLaunchStrategy>();
+    private static final Map<String, PluginLaunchStrategy> launchStrategies = new HashMap<>();
     private static final PluginFileFilter filter = new PluginFileFilter();
     private static Plugin pluginInstance;
 

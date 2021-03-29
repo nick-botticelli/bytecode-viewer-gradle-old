@@ -12,7 +12,7 @@ public class JHexEditor extends JPanel implements FocusListener,
     private static final long serialVersionUID = 2289328616534802372L;
     byte[] buff;
     public int cursor;
-    protected static Font font = new Font("Monospaced", 0, 12);
+    protected static Font font = new Font("Monospaced", Font.PLAIN, 12);
     protected int border = 2;
     public boolean DEBUG = false;
     private JPanel panel;

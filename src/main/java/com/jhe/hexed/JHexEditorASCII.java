@@ -135,7 +135,7 @@ public class JHexEditorASCII extends JComponent implements MouseListener,
         debug("keyReleased(" + e + ")");
     }
 
-    public boolean isFocusTraversable() {
+    public boolean isFocusable() {
         return true;
     }
 }

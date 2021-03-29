@@ -1,8 +1,6 @@
 package the.bytecode.club.bytecodeviewer.gui;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.HierarchyEvent;
@@ -284,18 +282,8 @@ public class ClassViewer extends Viewer
         panel1Search.add(byteButtonPane, BorderLayout.WEST);
         panel1Search.add(field1, BorderLayout.CENTER);
         panel1Search.add(check1, BorderLayout.EAST);
-        byteSearchNext.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent arg0) {
-                search(0, field1.getText(), true);
-            }
-        });
-        byteSearchPrev.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent arg0) {
-                search(0, field1.getText(), false);
-            }
-        });
+        byteSearchNext.addActionListener(arg0 -> search(0, field1.getText(), true));
+        byteSearchPrev.addActionListener(arg0 -> search(0, field1.getText(), false));
         field1.addKeyListener(new KeyListener() {
             @Override
             public void keyReleased(KeyEvent arg0) {
@@ -322,18 +310,8 @@ public class ClassViewer extends Viewer
         panel2Search.add(buttonPane2, BorderLayout.WEST);
         panel2Search.add(field2, BorderLayout.CENTER);
         panel2Search.add(check2, BorderLayout.EAST);
-        searchNext2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent arg0) {
-                search(1, field2.getText(), true);
-            }
-        });
-        searchPrev2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent arg0) {
-                search(1, field2.getText(), false);
-            }
-        });
+        searchNext2.addActionListener(arg0 -> search(1, field2.getText(), true));
+        searchPrev2.addActionListener(arg0 -> search(1, field2.getText(), false));
         field2.addKeyListener(new KeyListener() {
             @Override
             public void keyReleased(KeyEvent arg0) {
@@ -493,7 +471,7 @@ public class ClassViewer extends Viewer
                         panelArea.addKeyListener(new KeyListener() {
                             public void keyPressed(KeyEvent e) {
 
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
                                     field1.requestFocus();
                                 }
 
@@ -529,7 +507,7 @@ public class ClassViewer extends Viewer
                         {
                             public void keyPressed(KeyEvent e)
                             {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
                                 {
                                     field1.requestFocus();
                                 }
@@ -568,7 +546,7 @@ public class ClassViewer extends Viewer
                         {
                             public void keyPressed(KeyEvent e)
                             {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
                                 {
                                     field1.requestFocus();
                                 }
@@ -607,7 +585,7 @@ public class ClassViewer extends Viewer
                         {
                             public void keyPressed(KeyEvent e)
                             {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
                                 {
                                     field1.requestFocus();
                                 }
@@ -654,7 +632,7 @@ public class ClassViewer extends Viewer
                         {
                             public void keyPressed(KeyEvent e)
                             {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
                                 {
                                     field1.requestFocus();
                                 }
@@ -691,7 +669,7 @@ public class ClassViewer extends Viewer
                         {
                             public void keyPressed(KeyEvent e)
                             {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
                                 {
                                     field1.requestFocus();
                                 }
@@ -732,7 +710,7 @@ public class ClassViewer extends Viewer
                         {
                             public void keyPressed(KeyEvent e)
                             {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
                                 {
                                     field1.requestFocus();
                                 }
@@ -769,7 +747,7 @@ public class ClassViewer extends Viewer
                         {
                             public void keyPressed(KeyEvent e)
                             {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
                                 {
                                     field1.requestFocus();
                                 }
@@ -808,7 +786,7 @@ public class ClassViewer extends Viewer
                         {
                             public void keyPressed(KeyEvent e)
                             {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
                                 {
                                     field1.requestFocus();
                                 }
@@ -846,7 +824,7 @@ public class ClassViewer extends Viewer
                         {
                             public void keyPressed(KeyEvent e)
                             {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
                                 {
                                     field1.requestFocus();
                                 }
@@ -905,7 +883,7 @@ public class ClassViewer extends Viewer
                         panelArea.setEditable(isPanel2Editable());
                         panelArea.addKeyListener(new KeyListener() {
                             public void keyPressed(KeyEvent e) {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
                                     field2.requestFocus();
                                 }
 
@@ -939,7 +917,7 @@ public class ClassViewer extends Viewer
                         panelArea.setEditable(isPanel2Editable());
                         panelArea.addKeyListener(new KeyListener() {
                             public void keyPressed(KeyEvent e) {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
                                     field2.requestFocus();
                                 }
 
@@ -973,7 +951,7 @@ public class ClassViewer extends Viewer
                         panelArea.setEditable(isPanel2Editable());
                         panelArea.addKeyListener(new KeyListener() {
                             public void keyPressed(KeyEvent e) {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
                                     field2.requestFocus();
                                 }
 
@@ -1007,7 +985,7 @@ public class ClassViewer extends Viewer
                         panelArea.setEditable(false);
                         panelArea.addKeyListener(new KeyListener() {
                             public void keyPressed(KeyEvent e) {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
                                     field2.requestFocus();
                                 }
 
@@ -1050,7 +1028,7 @@ public class ClassViewer extends Viewer
                         smali2 = panelArea;
                         panelArea.addKeyListener(new KeyListener() {
                             public void keyPressed(KeyEvent e) {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
                                     field2.requestFocus();
                                 }
 
@@ -1083,7 +1061,7 @@ public class ClassViewer extends Viewer
                         panelArea.setEditable(isPanel2Editable());
                         panelArea.addKeyListener(new KeyListener() {
                             public void keyPressed(KeyEvent e) {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
                                     field2.requestFocus();
                                 }
 
@@ -1118,7 +1096,7 @@ public class ClassViewer extends Viewer
                         krakatau2 = panelArea;
                         krakatau2.addKeyListener(new KeyListener() {
                             public void keyPressed(KeyEvent e) {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
                                     field2.requestFocus();
                                 }
 
@@ -1151,7 +1129,7 @@ public class ClassViewer extends Viewer
                         panelArea.setEditable(isPanel2Editable());
                         panelArea.addKeyListener(new KeyListener() {
                             public void keyPressed(KeyEvent e) {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
                                     field2.requestFocus();
                                 }
 
@@ -1187,7 +1165,7 @@ public class ClassViewer extends Viewer
                         {
                             public void keyPressed(KeyEvent e)
                             {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
                                 {
                                     field1.requestFocus();
                                 }
@@ -1225,7 +1203,7 @@ public class ClassViewer extends Viewer
                         {
                             public void keyPressed(KeyEvent e)
                             {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
                                 {
                                     field2.requestFocus();
                                 }
@@ -1283,7 +1261,7 @@ public class ClassViewer extends Viewer
                         panelArea.setEditable(isPanel3Editable());
                         panelArea.addKeyListener(new KeyListener() {
                             public void keyPressed(KeyEvent e) {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
                                     field3.requestFocus();
                                 }
 
@@ -1318,7 +1296,7 @@ public class ClassViewer extends Viewer
                         panelArea.setEditable(isPanel3Editable());
                         panelArea.addKeyListener(new KeyListener() {
                             public void keyPressed(KeyEvent e) {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
                                     field3.requestFocus();
                                 }
 
@@ -1353,7 +1331,7 @@ public class ClassViewer extends Viewer
                         panelArea.setEditable(isPanel3Editable());
                         panelArea.addKeyListener(new KeyListener() {
                             public void keyPressed(KeyEvent e) {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
                                     field3.requestFocus();
                                 }
 
@@ -1387,7 +1365,7 @@ public class ClassViewer extends Viewer
                         panelArea.setEditable(false);
                         panelArea.addKeyListener(new KeyListener() {
                             public void keyPressed(KeyEvent e) {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
                                     field3.requestFocus();
                                 }
 
@@ -1414,11 +1392,7 @@ public class ClassViewer extends Viewer
                         final JHexEditor hex = new JHexEditor(cw.toByteArray());
                         hex.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (int) BytecodeViewer.viewer.fontSpinner.getValue()));
 
-                        SwingUtilities.invokeLater(new Runnable() {
-                            public void run() {
-                                panel3.add(hex);
-                            }
-                        });
+                        SwingUtilities.invokeLater(() -> panel3.add(hex));
 
                     }
 
@@ -1434,7 +1408,7 @@ public class ClassViewer extends Viewer
                         smali3 = panelArea;
                         smali3.addKeyListener(new KeyListener() {
                             public void keyPressed(KeyEvent e) {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
                                     field3.requestFocus();
                                 }
 
@@ -1467,7 +1441,7 @@ public class ClassViewer extends Viewer
                         panelArea.setEditable(isPanel3Editable());
                         panelArea.addKeyListener(new KeyListener() {
                             public void keyPressed(KeyEvent e) {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
                                     field3.requestFocus();
                                 }
 
@@ -1501,7 +1475,7 @@ public class ClassViewer extends Viewer
                         krakatau3 = panelArea;
                         krakatau3.addKeyListener(new KeyListener() {
                             public void keyPressed(KeyEvent e) {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
                                     field3.requestFocus();
                                 }
 
@@ -1534,7 +1508,7 @@ public class ClassViewer extends Viewer
                         panelArea.setEditable(isPanel3Editable());
                         panelArea.addKeyListener(new KeyListener() {
                             public void keyPressed(KeyEvent e) {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
                                     field3.requestFocus();
                                 }
 
@@ -1569,7 +1543,7 @@ public class ClassViewer extends Viewer
                         {
                             public void keyPressed(KeyEvent e)
                             {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
                                 {
                                     field1.requestFocus();
                                 }
@@ -1607,7 +1581,7 @@ public class ClassViewer extends Viewer
                         {
                             public void keyPressed(KeyEvent e)
                             {
-                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0))
+                                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
                                 {
                                     field3.requestFocus();
                                 }
@@ -1757,18 +1731,20 @@ public class ClassViewer extends Viewer
         }
     }
 
-    class WrapColumnFactory implements ViewFactory {
+    static class WrapColumnFactory implements ViewFactory {
         public View create(final Element elem) {
             final String kind = elem.getName();
             if (kind != null) {
-                if (kind.equals(AbstractDocument.ParagraphElementName))
-                    return new NoWrapParagraphView(elem);
-                else if (kind.equals(AbstractDocument.SectionElementName))
-                    return new BoxView(elem, View.Y_AXIS);
-                else if (kind.equals(StyleConstants.ComponentElementName))
-                    return new ComponentView(elem);
-                else if (kind.equals(StyleConstants.IconElementName))
-                    return new IconView(elem);
+                switch (kind) {
+                    case AbstractDocument.ParagraphElementName:
+                        return new NoWrapParagraphView(elem);
+                    case AbstractDocument.SectionElementName:
+                        return new BoxView(elem, View.Y_AXIS);
+                    case StyleConstants.ComponentElementName:
+                        return new ComponentView(elem);
+                    case StyleConstants.IconElementName:
+                        return new IconView(elem);
+                }
             }
 
             return new LabelView(elem);

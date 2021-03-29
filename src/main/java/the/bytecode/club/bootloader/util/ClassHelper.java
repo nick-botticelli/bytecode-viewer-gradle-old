@@ -32,7 +32,7 @@ import org.objectweb.asm.tree.ClassNode;
 public class ClassHelper {
 
     public static Map<String, ClassNode> convertToMap(Collection<ClassNode> classes) {
-        Map<String, ClassNode> map = new HashMap<String, ClassNode>();
+        Map<String, ClassNode> map = new HashMap<>();
         for (ClassNode cn : classes) {
             map.put(cn.name, cn);
         }
@@ -40,7 +40,7 @@ public class ClassHelper {
     }
 
     public static <T, K> Map<T, K> copyOf(Map<T, K> src) {
-        Map<T, K> dst = new HashMap<T, K>();
+        Map<T, K> dst = new HashMap<>();
         copy(src, dst);
         return dst;
     }

@@ -8,11 +8,7 @@ import the.bytecode.club.bytecodeviewer.BytecodeViewer;
 import the.bytecode.club.bytecodeviewer.util.MiscUtils;
 
 import java.io.*;
-import java.util.Deque;
-import java.util.LinkedList;
 import java.util.Random;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *
@@ -106,7 +102,7 @@ public class JADXDecompiler extends Decompiler
             if (f.isDirectory())
                 return findFile(f.listFiles());
             else {
-                String s = "";
+                String s;
                 try {
                     s = DiskReader.loadAsString(f.getAbsolutePath());
                 } catch (Exception e) {

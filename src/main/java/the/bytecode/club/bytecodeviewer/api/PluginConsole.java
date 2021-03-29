@@ -68,7 +68,7 @@ public class PluginConsole extends JFrame {
         scrollPane.setViewportView(textArea);
         textArea.addKeyListener(new KeyListener() {
             public void keyPressed(KeyEvent e) {
-                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
                     field.requestFocus();
                 }
 
@@ -94,18 +94,8 @@ public class PluginConsole extends JFrame {
         panel.add(buttonPane, BorderLayout.WEST);
         panel.add(field, BorderLayout.CENTER);
         panel.add(check, BorderLayout.EAST);
-        searchNext.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent arg0) {
-                search(field.getText(), true);
-            }
-        });
-        searchPrev.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent arg0) {
-                search(field.getText(), false);
-            }
-        });
+        searchNext.addActionListener(arg0 -> search(field.getText(), true));
+        searchPrev.addActionListener(arg0 -> search(field.getText(), false));
         field.addKeyListener(new KeyListener() {
             @Override
             public void keyReleased(KeyEvent arg0) {
@@ -142,7 +132,7 @@ public class PluginConsole extends JFrame {
                     .getElementIndex(area.getCaretPosition()) + 1;
             int currentLine = 1;
             boolean canSearch = false;
-            String[] test = null;
+            String[] test;
             if (area.getText().split("\n").length >= 2)
                 test = area.getText().split("\n");
             else

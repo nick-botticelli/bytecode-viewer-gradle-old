@@ -58,7 +58,7 @@ public class CodeSequenceDiagram extends Plugin {
             BytecodeViewer.showMessage("ClassNode is null for CodeSequenceDiagram. Please report to @Konloch");
             return;
         }
-        JFrame frame = null;
+        JFrame frame;
         if (c.name != null)
             frame = new JFrame("Code Sequence Diagram - " + c.name);
         else
@@ -87,7 +87,7 @@ public class CodeSequenceDiagram extends Plugin {
             int testY = 0;
             double magicNumber = 5.8;
 
-            for (MethodNode m : (ArrayList<MethodNode>) c.methods) {
+            for (MethodNode m : c.methods) {
                 String mIdentifier = c.name + "." + m.name + m.desc;
                 Object node = graph.insertVertex(parent, null, mIdentifier, testX, testY, mIdentifier.length() * magicNumber, 30);
                 Object attach = node;

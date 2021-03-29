@@ -1,17 +1,9 @@
 package the.bytecode.club.bytecodeviewer.util;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-import java.util.zip.ZipOutputStream;
 
-import me.konloch.kontainer.io.DiskWriter;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import the.bytecode.club.bytecodeviewer.BytecodeViewer;
-import the.bytecode.club.bytecodeviewer.SecurityMan;
 
 /***************************************************************************
  * Bytecode Viewer (BCV) - Java & Android Reverse Engineering Suite        *

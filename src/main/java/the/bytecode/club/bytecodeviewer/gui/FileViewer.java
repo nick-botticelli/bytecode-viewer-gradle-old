@@ -2,17 +2,13 @@ package the.bytecode.club.bytecodeviewer.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
+import java.nio.charset.StandardCharsets;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -83,7 +79,7 @@ public class FileViewer extends Viewer {
         RTextScrollPane scrollPane = new RTextScrollPane(panelArea);
         panelArea.addKeyListener(new KeyListener() {
             public void keyPressed(KeyEvent e) {
-                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
                     field.requestFocus();
                 }
 
@@ -109,20 +105,17 @@ public class FileViewer extends Viewer {
                     image = ImageIO.read(new ByteArrayInputStream(contents)); //gifs fail cause of this
                     JLabel label = new JLabel("", new ImageIcon(image), JLabel.CENTER);
                     panel2.add(label, BorderLayout.CENTER);
-                    panel2.addMouseWheelListener(new MouseWheelListener() {
-                        @Override
-                        public void mouseWheelMoved(MouseWheelEvent e) {
-                            int notches = e.getWheelRotation();
-                            if (notches < 0) {
-                                image = Scalr.resize(image, Scalr.Method.SPEED, image.getWidth() + 10, image.getHeight() + 10);
-                            } else {
-                                image = Scalr.resize(image, Scalr.Method.SPEED, image.getWidth() - 10, image.getHeight() - 10);
-                            }
-                            panel2.removeAll();
-                            JLabel label = new JLabel("", new ImageIcon(image), JLabel.CENTER);
-                            panel2.add(label, BorderLayout.CENTER);
-                            panel2.updateUI();
+                    panel2.addMouseWheelListener(e -> {
+                        int notches = e.getWheelRotation();
+                        if (notches < 0) {
+                            image = Scalr.resize(image, Scalr.Method.SPEED, image.getWidth() + 10, image.getHeight() + 10);
+                        } else {
+                            image = Scalr.resize(image, Scalr.Method.SPEED, image.getWidth() - 10, image.getHeight() - 10);
                         }
+                        panel2.removeAll();
+                        JLabel label1 = new JLabel("", new ImageIcon(image), JLabel.CENTER);
+                        panel2.add(label1, BorderLayout.CENTER);
+                        panel2.updateUI();
                     });
                     return;
                 } catch (Exception e) {
@@ -207,7 +200,7 @@ public class FileViewer extends Viewer {
         panel2.add(scrollPane);
     }
 
-    static CharsetEncoder asciiEncoder = Charset.forName("US-ASCII").newEncoder(); // or "ISO-8859-1" for ISO Latin 1
+    static CharsetEncoder asciiEncoder = StandardCharsets.US_ASCII.newEncoder(); // or "ISO-8859-1" for ISO Latin 1
 
     public static boolean isPureAscii(String v) {
         return asciiEncoder.canEncode(v);
@@ -232,31 +225,21 @@ public class FileViewer extends Viewer {
         panel.add(buttonPane, BorderLayout.WEST);
         panel.add(field, BorderLayout.CENTER);
         panel.add(check, BorderLayout.EAST);
-        searchNext.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent arg0) {
-                search(field.getText(), true);
-            }
-        });
-        searchPrev.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent arg0) {
-                search(field.getText(), false);
-            }
-        });
+        searchNext.addActionListener(event -> search(field.getText(), true));
+        searchPrev.addActionListener(event -> search(field.getText(), false));
         field.addKeyListener(new KeyListener() {
             @Override
-            public void keyReleased(KeyEvent arg0) {
-                if (arg0.getKeyCode() == KeyEvent.VK_ENTER)
+            public void keyReleased(KeyEvent event) {
+                if (event.getKeyCode() == KeyEvent.VK_ENTER)
                     search(field.getText(), true);
             }
 
             @Override
-            public void keyPressed(KeyEvent arg0) {
+            public void keyPressed(KeyEvent event) {
             }
 
             @Override
-            public void keyTyped(KeyEvent arg0) {
+            public void keyTyped(KeyEvent event) {
             }
         });
 
@@ -280,7 +263,7 @@ public class FileViewer extends Viewer {
                     .getElementIndex(area.getCaretPosition()) + 1;
             int currentLine = 1;
             boolean canSearch = false;
-            String[] test = null;
+            String[] test;
             if (area.getText().split("\n").length >= 2)
                 test = area.getText().split("\n");
             else

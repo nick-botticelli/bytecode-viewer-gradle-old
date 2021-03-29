@@ -36,7 +36,7 @@ import org.objectweb.asm.tree.ClassNode;
 
 public final class ClassNodeLoader extends ClassLoader {
 
-    private HashMap<String, ClassNode> classes = new HashMap<String, ClassNode>();
+    private HashMap<String, ClassNode> classes = new HashMap<>();
 
     /**
      * Adds the provided class node to the class loader
@@ -73,7 +73,7 @@ public final class ClassNodeLoader extends ClassLoader {
      * @return All classes in this loader
      */
     public Collection<Class<?>> getAllClasses() {
-        ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
+        ArrayList<Class<?>> classes = new ArrayList<>();
         for (String s : this.classes.keySet()) {
             try {
                 classes.add(loadClass(s));

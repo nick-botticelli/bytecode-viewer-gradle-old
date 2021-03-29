@@ -48,7 +48,7 @@ public class JDGUIDecompiler extends Decompiler {
 
     @Override
     public String decompileClassNode(ClassNode cn, byte[] b) {
-        String exception = "";
+        String exception;
         try {
             final File tempDirectory = new File(BytecodeViewer.tempDirectory + BytecodeViewer.fs + MiscUtils.randomString(32) + BytecodeViewer.fs);
             tempDirectory.mkdir();
@@ -103,7 +103,7 @@ public class JDGUIDecompiler extends Decompiler {
             jd.core.Decompiler decompiler = new DecompilerImpl();
             decompiler.decompile(preferences, loader, printer, internalPath);
 
-            String decompiledSource = "Error with decompilation.";
+            String decompiledSource;
             decompiledSource = DiskReader.loadAsString(tempJava.getAbsolutePath());
 
             return decompiledSource;

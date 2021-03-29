@@ -30,7 +30,7 @@ import the.bytecode.club.bootloader.resource.ExternalResource;
 public final class AbstractLoaderFactory {
 
     private static final String DEFAULT_KEY = "default-factory";
-    private static final Map<String, LoaderFactory<?>> FACTORYCACHE = new HashMap<String, LoaderFactory<?>>();
+    private static final Map<String, LoaderFactory<?>> FACTORYCACHE = new HashMap<>();
 
     public static void register(LoaderFactory<?> factory) {
         register(DEFAULT_KEY, factory);

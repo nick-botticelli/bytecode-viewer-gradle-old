@@ -17,15 +17,13 @@ public class EncodeUtils {
 
     public static String stringToUnicode(String s) {
         try {
-            StringBuilder out = new StringBuilder("");
+            StringBuilder out = new StringBuilder();
             byte[] bytes = s.getBytes("unicode");
 
             for (int i = 0; i < bytes.length - 1; i += 2) {
                 out.append("\\u");
                 String str = Integer.toHexString(bytes[i + 1] & 0xff);
-                for (int j = str.length(); j < 2; j++) {
-                    out.append("0");
-                }
+                out.append("0".repeat(2 - str.length()));
                 String str1 = Integer.toHexString(bytes[i] & 0xff);
                 out.append(str1);
                 out.append(str);
@@ -60,7 +58,7 @@ public class EncodeUtils {
             char c;
             for (int i = 0; i < s.length(); i++) {
                 c = s.charAt(i);
-                if (c >= 0 && c <= 255) {
+                if (c <= 255) {
                     sb.append(c);
                 } else {
                     byte[] b;

@@ -79,10 +79,10 @@ public class BytecodeViewer {
             Enumeration<JarEntry> e = jarFile.entries();
             URL[] urls = {new URL("jar:file:" + "" + f.getAbsolutePath() + "!/")};
             cl = URLClassLoader.newInstance(urls);
-            List<Class<?>> ret = new ArrayList<Class<?>>();
+            List<Class<?>> ret = new ArrayList<>();
 
             while (e.hasMoreElements()) {
-                JarEntry je = (JarEntry) e.nextElement();
+                JarEntry je = e.nextElement();
                 if (je.isDirectory() || !je.getName().endsWith(".class"))
                     continue;
                 String className = je.getName().replace("/", ".").replace(".class", "");

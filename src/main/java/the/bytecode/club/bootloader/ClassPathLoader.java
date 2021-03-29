@@ -35,9 +35,9 @@ public class ClassPathLoader implements ILoader<Object> {
             InvocationTargetException {
         URLClassLoader urlClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
         Class<URLClassLoader> urlClass = URLClassLoader.class;
-        Method method = urlClass.getDeclaredMethod("addURL", new Class[]{URL.class});
+        Method method = urlClass.getDeclaredMethod("addURL", URL.class);
         method.setAccessible(true);
-        method.invoke(urlClassLoader, new Object[]{url});
+        method.invoke(urlClassLoader, url);
     }
 
     /*

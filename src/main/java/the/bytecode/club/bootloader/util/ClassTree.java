@@ -36,16 +36,16 @@ import org.objectweb.asm.tree.MethodNode;
  * @created 25 May 2015 (actually before this)
  */
 public class ClassTree {
-    private static final SetCreator<ClassNode> SET_CREATOR = new SetCreator<ClassNode>();
+    private static final SetCreator<ClassNode> SET_CREATOR = new SetCreator<>();
 
     private final Map<String, ClassNode> classes;
     private final NullPermeableHashMap<ClassNode, Set<ClassNode>> supers;
     private final NullPermeableHashMap<ClassNode, Set<ClassNode>> delgates;
 
     public ClassTree() {
-        classes = new HashMap<String, ClassNode>();
-        supers = new NullPermeableHashMap<ClassNode, Set<ClassNode>>(SET_CREATOR);
-        delgates = new NullPermeableHashMap<ClassNode, Set<ClassNode>>(SET_CREATOR);
+        classes = new HashMap<>();
+        supers = new NullPermeableHashMap<>(SET_CREATOR);
+        delgates = new NullPermeableHashMap<>(SET_CREATOR);
     }
 
     public ClassTree(Collection<ClassNode> classes) {
@@ -54,8 +54,8 @@ public class ClassTree {
 
     public ClassTree(Map<String, ClassNode> classes_) {
         classes = copyOf(classes_);
-        supers = new NullPermeableHashMap<ClassNode, Set<ClassNode>>(SET_CREATOR);
-        delgates = new NullPermeableHashMap<ClassNode, Set<ClassNode>>(SET_CREATOR);
+        supers = new NullPermeableHashMap<>(SET_CREATOR);
+        delgates = new NullPermeableHashMap<>(SET_CREATOR);
 
         build(classes);
     }
@@ -70,7 +70,7 @@ public class ClassTree {
 
                 getDelegates0(ifacecs).add(node);
 
-                Set<ClassNode> superinterfaces = new HashSet<ClassNode>();
+                Set<ClassNode> superinterfaces = new HashSet<>();
                 buildSubTree(classes, superinterfaces, ifacecs);
 
                 getSupers0(node).addAll(superinterfaces);
@@ -84,7 +84,7 @@ public class ClassTree {
                     if (ifacecs == null)
                         continue;
                     getDelegates0(ifacecs).add(currentSuper);
-                    Set<ClassNode> superinterfaces = new HashSet<ClassNode>();
+                    Set<ClassNode> superinterfaces = new HashSet<>();
                     buildSubTree(classes, superinterfaces, ifacecs);
                     getSupers0(currentSuper).addAll(superinterfaces);
                     getSupers0(node).addAll(superinterfaces);
@@ -105,7 +105,7 @@ public class ClassTree {
 
             getDelegates0(ifacecs).add(node);
 
-            Set<ClassNode> superinterfaces = new HashSet<ClassNode>();
+            Set<ClassNode> superinterfaces = new HashSet<>();
             buildSubTree(classes, superinterfaces, ifacecs);
 
             getSupers0(node).addAll(superinterfaces);
@@ -119,7 +119,7 @@ public class ClassTree {
                 if (ifacecs == null)
                     continue;
                 getDelegates0(ifacecs).add(currentSuper);
-                Set<ClassNode> superinterfaces = new HashSet<ClassNode>();
+                Set<ClassNode> superinterfaces = new HashSet<>();
                 buildSubTree(classes, superinterfaces, ifacecs);
                 getSupers0(currentSuper).addAll(superinterfaces);
                 getSupers0(node).addAll(superinterfaces);
@@ -140,14 +140,14 @@ public class ClassTree {
             if (cs != null) {
                 getDelegates0(cs).add(current);
                 buildSubTree(classes, superinterfaces, cs);
-            } else {
+            }/* else {
                 // System.out.println("Null interface -> " + iface);
-            }
+            }*/
         }
     }
 
     public Set<MethodNode> getMethodsFromSuper(ClassNode node, String name, String desc) {
-        Set<MethodNode> methods = new HashSet<MethodNode>();
+        Set<MethodNode> methods = new HashSet<>();
         for (ClassNode super_ : getSupers(node)) {
             for (MethodNode mn : super_.methods) {
                 if (mn.name.equals(name) && mn.desc.equals(desc)) {
@@ -159,7 +159,7 @@ public class ClassTree {
     }
 
     public Set<MethodNode> getMethodsFromDelegates(ClassNode node, String name, String desc) {
-        Set<MethodNode> methods = new HashSet<MethodNode>();
+        Set<MethodNode> methods = new HashSet<>();
         for (ClassNode delegate : getDelegates(node)) {
             for (MethodNode mn : delegate.methods) {
                 if (mn.name.equals(name) && mn.desc.equals(desc)) {

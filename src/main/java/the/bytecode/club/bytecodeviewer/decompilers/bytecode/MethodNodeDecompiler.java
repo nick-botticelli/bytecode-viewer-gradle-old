@@ -3,6 +3,7 @@ package the.bytecode.club.bytecodeviewer.decompilers.bytecode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -59,7 +60,7 @@ public class MethodNodeDecompiler {
 
         if (m.name.equals("<init>")) {
             sb.append(class_);
-        } else if (m.name.equals("<clinit>")) {
+        //} else if (m.name.equals("<clinit>")) {
         } else {
             sb.append(m.name);
         }
@@ -155,10 +156,7 @@ public class MethodNodeDecompiler {
                 sb.append(" handled by L");
                 sb.append(insnPrinter.resolveLabel(tcbn.handler));
                 sb.append(": ");
-                if (tcbn.type != null)
-                    sb.append(tcbn.type);
-                else
-                    sb.append("Type is null.");
+                sb.append(Objects.requireNonNullElse(tcbn.type, "Type is null."));
                 sb.append(BytecodeViewer.nl);
             }
             for (String insn : insnPrinter.createPrint()) {
@@ -216,7 +214,7 @@ public class MethodNodeDecompiler {
     private static String getAccessString(int access) {
         // public, protected, private, abstract, static,
         // final, synchronized, native & strictfp are permitted
-        List<String> tokens = new ArrayList<String>();
+        List<String> tokens = new ArrayList<>();
         if ((access & Opcodes.ACC_PUBLIC) != 0)
             tokens.add("public");
         if ((access & Opcodes.ACC_PRIVATE) != 0)

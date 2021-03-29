@@ -42,9 +42,9 @@ public class JHexEditorHEX extends JComponent implements MouseListener,
     public void paint(Graphics g) {
         debug("paint(" + g + ")");
         debug("cursor=" + he.cursor + " buff.length=" + he.buff.length);
-        Dimension d = getMinimumSize();
+        Dimension dimension = getMinimumSize();
         g.setColor(Color.white);
-        g.fillRect(0, 0, d.width, d.height);
+        g.fillRect(0, 0, dimension.width, dimension.height);
         g.setColor(Color.black);
 
         g.setFont(JHexEditor.font);
@@ -148,7 +148,7 @@ public class JHexEditorHEX extends JComponent implements MouseListener,
         debug("keyReleased(" + e + ")");
     }
 
-    public boolean isFocusTraversable() {
+    public boolean isFocusable() {
         return true;
     }
 }

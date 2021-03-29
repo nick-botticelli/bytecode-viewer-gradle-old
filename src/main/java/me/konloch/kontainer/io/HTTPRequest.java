@@ -154,7 +154,7 @@ public class HTTPRequest {
             cleanup();
         }
 
-        return st.toArray(new String[st.size()]);
+        return st.toArray(new String[0]);
     }
 
     /**

@@ -47,7 +47,7 @@ public class RenameMethods extends JavaObfuscator {
 
                 /* As we dont want to rename native dll methods */
                 if ((m.access & Opcodes.ACC_NATIVE) != 0)
-                    continue methodLoop;
+                    continue;
 
                 if (m.access != Opcodes.ACC_ABSTRACT
                         && m.access != Opcodes.ACC_ABSTRACT

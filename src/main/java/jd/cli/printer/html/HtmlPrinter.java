@@ -64,13 +64,13 @@ public class HtmlPrinter implements Printer {
                 this.sbCode.append("&gt;");
                 break;
             default:
-                this.sbCode.append(String.valueOf(c));
+                this.sbCode.append(c);
                 break;
         }
     }
 
     public void print(int i) {
-        this.sbCode.append(String.valueOf(i));
+        this.sbCode.append(i);
     }
 
     public void print(String s) {
@@ -216,11 +216,9 @@ public class HtmlPrinter implements Printer {
         this.realLineNumberFormatPrefix = "%" + (digitCount + 1) + "d:";
         this.lineNumberFormatPrefix = "%" + digitCount + "d<br>";
 
-        StringBuilder sb = new StringBuilder(digitCount + 7);
-        sb.append("%" + (digitCount + 1) + "d:");
-        for (int i = 0; i < digitCount; i++) sb.append(' ');
-        sb.append("<br>");
-        this.unknownLineNumberPrefix = sb.toString();
+        this.unknownLineNumberPrefix = "%" + (digitCount + 1) + "d:" +
+                " ".repeat(Math.max(0, digitCount)) +
+                "<br>";
 
         this.printStream.print(
                 "<html><head><style type='text/css'>" +
@@ -314,8 +312,7 @@ public class HtmlPrinter implements Printer {
             }
         }
 
-        for (int i = 0; i < indentationCount; i++)
-            this.sbCode.append("  ");
+        this.sbCode.append("  ".repeat(Math.max(0, indentationCount)));
     }
 
     public void endOfLine() {
@@ -482,11 +479,11 @@ public class HtmlPrinter implements Printer {
     }
 
     public void debugMarker(String marker) {
-        if (DEBUG) {
+        /*if (DEBUG) {
             // DEBUG // this.sb.append("<span class='debugmarker'>");
             // DEBUG // this.sb.append(marker);
             // DEBUG // this.sb.append("</span>");
-        }
+        }*/
     }
 
     public void debugStartOfCaseBlockLayoutBlock() {

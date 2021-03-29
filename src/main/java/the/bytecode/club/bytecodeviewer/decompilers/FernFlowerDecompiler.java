@@ -53,7 +53,7 @@ public class FernFlowerDecompiler extends Decompiler {
         {
             org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler.main(generateMainMethod(tempZip.getAbsolutePath(), BytecodeViewer.tempDirectory + "./temp/"));
         }
-        catch(StackOverflowError | Exception e)
+        catch(StackOverflowError | Exception ignored)
         {
 
         }

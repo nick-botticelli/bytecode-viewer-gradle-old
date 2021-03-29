@@ -225,7 +225,7 @@ public class PlainTextPrinter implements Printer {
     }
 
     public void extraLine(int count) {
-        if (this.preferences.isMergeEmptyLines() == false) {
+        if (!this.preferences.isMergeEmptyLines()) {
             while (count-- > 0) {
                 if (this.maxLineNumber > 0) {
                     this.printStream.append(this.lineNumberBeginPrefix);
@@ -281,7 +281,7 @@ public class PlainTextPrinter implements Printer {
     }
 
     public void startOfOptionalPrefix() {
-        if (this.preferences.isShowPrefixThis() == false)
+        if (!this.preferences.isShowPrefixThis())
             this.display = false;
     }
 

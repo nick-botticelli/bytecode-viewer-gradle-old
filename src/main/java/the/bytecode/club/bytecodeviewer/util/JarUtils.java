@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipException;
 import java.util.zip.ZipInputStream;
 
 import me.konloch.kontainer.io.DiskWriter;
@@ -70,7 +69,7 @@ public class JarUtils {
                         files.put(name, bytes);
                 } else {
                     String cafebabe = String.format("%02X", bytes[0]) + String.format("%02X", bytes[1]) + String.format("%02X", bytes[2]) + String.format("%02X", bytes[3]);
-                    if (cafebabe.toLowerCase().equals("cafebabe")) {
+                    if (cafebabe.equalsIgnoreCase("cafebabe")) {
                         try {
                             final ClassNode cn = getNode(bytes);
                             container.classes.add(cn);
@@ -85,9 +84,8 @@ public class JarUtils {
                     }
                 }
 
-            } catch (java.io.EOFException | ZipException e) {
-                //ignore cause apache unzip
-            } catch (Exception e) {
+            } //ignore cause apache unzip
+            catch (Exception e) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
             } finally {
                 jis.closeEntry();
@@ -135,7 +133,7 @@ public class JarUtils {
                         else
                         {
                             String cafebabe = String.format("%02X", bytes[0]) + String.format("%02X", bytes[1]) + String.format("%02X", bytes[2]) + String.format("%02X", bytes[3]);
-                            if (cafebabe.toLowerCase().equals("cafebabe"))
+                            if (cafebabe.equalsIgnoreCase("cafebabe"))
                             {
                                 try
                                 {
@@ -164,7 +162,7 @@ public class JarUtils {
 
 
     public static ArrayList<ClassNode> loadClasses(final File jarFile) throws IOException {
-        ArrayList<ClassNode> classes = new ArrayList<ClassNode>();
+        ArrayList<ClassNode> classes = new ArrayList<>();
         ZipInputStream jis = new ZipInputStream(new FileInputStream(jarFile));
         ZipEntry entry;
         while ((entry = jis.getNextEntry()) != null) {
@@ -173,7 +171,7 @@ public class JarUtils {
                 if (name.endsWith(".class")) {
                     byte[] bytes = getBytes(jis);
                     String cafebabe = String.format("%02X", bytes[0]) + String.format("%02X", bytes[1]) + String.format("%02X", bytes[2]) + String.format("%02X", bytes[3]);
-                    if (cafebabe.toLowerCase().equals("cafebabe")) {
+                    if (cafebabe.equalsIgnoreCase("cafebabe")) {
                         try {
                             final ClassNode cn = getNode(bytes);
                             classes.add(cn);
@@ -217,7 +215,6 @@ public class JarUtils {
                         files.put(name, getBytes(jis));
 
                     jis.closeEntry();
-                    continue;
                 }
             } catch (Exception e) {
                 new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);
@@ -241,12 +238,11 @@ public class JarUtils {
     public static byte[] getBytes(final InputStream is) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
-        int a = 0;
+        int a;
         while ((a = is.read(buffer)) != -1) {
             baos.write(buffer, 0, a);
         }
         baos.close();
-        buffer = null;
         return baos.toByteArray();
     }
 
@@ -256,19 +252,14 @@ public class JarUtils {
      * @param bytez the class file's byte[]
      * @return the ClassNode instance
      */
-    public static ClassNode getNode(final byte[] bytez) throws Exception {
+    public static ClassNode getNode(final byte[] bytez) {
         ClassReader cr = new ClassReader(bytez);
         ClassNode cn = new ClassNode();
         try {
             cr.accept(cn, ClassReader.EXPAND_FRAMES);
         } catch (Exception e) {
-            try {
-                cr.accept(cn, ClassReader.SKIP_FRAMES);
-            } catch (Exception e2) {
-                throw e2;
-            }
+            cr.accept(cn, ClassReader.SKIP_FRAMES);
         }
-        cr = null;
         return cn;
     }
 
@@ -322,7 +313,7 @@ public class JarUtils {
     public static void saveAsJarClassesOnly(ArrayList<ClassNode> nodeList, String path) {
         try {
             JarOutputStream out = new JarOutputStream(new FileOutputStream(path));
-            ArrayList<String> noDupe = new ArrayList<String>();
+            ArrayList<String> noDupe = new ArrayList<>();
             for (ClassNode cn : nodeList) {
                 ClassWriter cw = new ClassWriter(0);
                 cn.accept(cw);
@@ -376,7 +367,7 @@ public class JarUtils {
     public static void saveAsJar(ArrayList<ClassNode> nodeList, String path) {
         try {
             JarOutputStream out = new JarOutputStream(new FileOutputStream(path));
-            ArrayList<String> noDupe = new ArrayList<String>();
+            ArrayList<String> noDupe = new ArrayList<>();
             for (ClassNode cn : nodeList) {
                 ClassWriter cw = new ClassWriter(0);
                 cn.accept(cw);

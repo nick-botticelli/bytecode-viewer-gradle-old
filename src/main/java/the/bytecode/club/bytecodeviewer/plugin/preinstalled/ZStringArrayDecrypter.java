@@ -67,12 +67,12 @@ public class ZStringArrayDecrypter extends Plugin {
                     Field[] fields = debug.getDeclaredFields();
                     for (Field field : fields) {
                         if (field.getName().equals("z")) {
-                            out.append(debug.getName() + ":" + BytecodeViewer.nl);
+                            out.append(debug.getName()).append(":").append(BytecodeViewer.nl);
                             field.setAccessible(true);
                             if (field.get(null) != null && field.get(null) instanceof String[] && Modifier.isStatic(field.getModifiers()) && Modifier.isFinal(field.getModifiers())) {
                                 String[] fieldVal = (String[]) field.get(null);
                                 for (int i = 0; i < fieldVal.length; i++) {
-                                    out.append("  z[" + i + "] = " + fieldVal[i] + BytecodeViewer.nl);
+                                    out.append("  z[").append(i).append("] = ").append(fieldVal[i]).append(BytecodeViewer.nl);
                                 }
                             }
                         }

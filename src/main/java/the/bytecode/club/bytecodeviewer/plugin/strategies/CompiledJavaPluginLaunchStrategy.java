@@ -43,7 +43,7 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy {
 
     private static final String PLUGIN_CLASS_NAME = Plugin.class.getCanonicalName().replace(".", "/");
 
-    private final Set<LoadedPluginData> loaded = new HashSet<LoadedPluginData>();
+    private final Set<LoadedPluginData> loaded = new HashSet<>();
 
     @Override
     public Plugin run(File file) throws Throwable {
@@ -62,7 +62,7 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy {
         }
 
         LoadingClassLoader cl = new LoadingClassLoader(pdata, set);
-        Plugin p = cl.pluginKlass.newInstance();
+        Plugin p = cl.pluginKlass.getDeclaredConstructor().newInstance();
         LoadedPluginData npdata = new LoadedPluginData(pdata, cl, p);
         loaded.add(npdata);
 
@@ -77,7 +77,7 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy {
         ZipInputStream jis = new ZipInputStream(new FileInputStream(jarFile));
         ZipEntry entry;
 
-        Set<LoadedNodeData> set = new HashSet<LoadedNodeData>();
+        Set<LoadedNodeData> set = new HashSet<>();
 
         while ((entry = jis.getNextEntry()) != null) {
             try {
@@ -85,7 +85,7 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy {
                 if (name.endsWith(".class")) {
                     byte[] bytes = JarUtils.getBytes(jis);
                     String magic = String.format("%02X", bytes[0]) + String.format("%02X", bytes[1]) + String.format("%02X", bytes[2]) + String.format("%02X", bytes[3]);
-                    if (magic.toLowerCase().equals("cafebabe")) {
+                    if (magic.equalsIgnoreCase("cafebabe")) {
                         try {
                             ClassReader cr = new ClassReader(bytes);
                             ClassNode cn = new ClassNode();
@@ -153,8 +153,8 @@ public class CompiledJavaPluginLaunchStrategy implements PluginLaunchStrategy {
         public LoadingClassLoader(LoadedNodeData data, Set<LoadedNodeData> set) throws Throwable {
             this.data = data;
 
-            cache = new HashMap<String, LoadedNodeData>();
-            ccache = new HashMap<String, Class<?>>();
+            cache = new HashMap<>();
+            ccache = new HashMap<>();
 
             for (LoadedNodeData d : set) {
                 cache.put(d.node.name, d);

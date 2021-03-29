@@ -48,7 +48,7 @@ import the.bytecode.club.bytecodeviewer.gui.GraphicialReflectionKit;
 
 public class EZInjection extends Plugin {
 
-    public static ArrayList<BytecodeHook> hookArray = new ArrayList<BytecodeHook>();
+    public static ArrayList<BytecodeHook> hookArray = new ArrayList<>();
     private static String version = "1.0";
     private static PluginConsole gui = new PluginConsole("EZ Injection v" + version);
     private boolean accessModifiers, injectHooks, invokeMethod, useProxy,
@@ -108,8 +108,10 @@ public class EZInjection extends Plugin {
 
             if (!all && debugClasses.length >= 1) {
                 for (String s : debugClasses) {
-                    if (info.split("\\.")[0].equals(s.replaceAll("\\.", "/")))
+                    if (info.split("\\.")[0].equals(s.replaceAll("\\.", "/"))) {
                         print = true;
+                        break;
+                    }
                 }
             }
 

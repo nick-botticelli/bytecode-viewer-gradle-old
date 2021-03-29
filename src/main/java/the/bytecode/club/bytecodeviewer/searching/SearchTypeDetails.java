@@ -30,7 +30,7 @@ import the.bytecode.club.bytecodeviewer.util.FileContainer;
  */
 
 public interface SearchTypeDetails {
-    public JPanel getPanel();
+    JPanel getPanel();
 
-    public void search(FileContainer container, ClassNode node, SearchResultNotifier srn, boolean exact);
+    void search(FileContainer container, ClassNode node, SearchResultNotifier srn, boolean exact);
 }

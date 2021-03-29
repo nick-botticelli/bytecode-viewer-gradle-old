@@ -87,8 +87,7 @@ public class SmaliAssembler extends Compiler {
                 }
 
                 return org.apache.commons.io.FileUtils.readFileToByteArray(outputClass);
-            } catch (java.lang.NullPointerException e) {
-
+            } catch (java.lang.NullPointerException ignored) {
             }
         } catch (Exception e) {
             new the.bytecode.club.bytecodeviewer.api.ExceptionUI(e);

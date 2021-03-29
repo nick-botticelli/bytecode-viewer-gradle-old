@@ -44,7 +44,7 @@ import the.bytecode.club.bytecodeviewer.util.FileContainer;
 
 public class LDCSearch implements SearchTypeDetails {
 
-    JTextField searchText = null;
+    JTextField searchText;
     JPanel myPanel = null;
 
     public LDCSearch()
@@ -85,10 +85,9 @@ public class LDCSearch implements SearchTypeDetails {
                     String desc2 = method.desc;
                     try {
                         desc2 = Type.getType(method.desc).toString();
-                        if (desc2 == null || desc2.equals("null"))
+                        if (desc2.equals("null"))
                             desc2 = method.desc;
-                    } catch (java.lang.ArrayIndexOutOfBoundsException e) {
-
+                    } catch (java.lang.ArrayIndexOutOfBoundsException ignored) {
                     }
 
                     if ((exact && ldcString.equals(srchText)) || (!exact && ldcString.contains(srchText)))
@@ -107,10 +106,9 @@ public class LDCSearch implements SearchTypeDetails {
             String desc2 = field.desc;
             try {
                 desc2 = Type.getType(field.desc).toString();
-                if (desc2 == null || desc2.equals("null"))
+                if (desc2.equals("null"))
                     desc2 = field.desc;
-            } catch (java.lang.ArrayIndexOutOfBoundsException e) {
-
+            } catch (java.lang.ArrayIndexOutOfBoundsException ignored) {
             }
             if (field.value instanceof String) {
                 srn.notifyOfResult(container.name+">"+node.name + "." + field.name + desc2

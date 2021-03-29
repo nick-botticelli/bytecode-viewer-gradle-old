@@ -4,7 +4,6 @@ import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import jd.core.CoreConstants;
@@ -64,17 +63,13 @@ public class ClassFileUtil {
                 throw new ClassFormatException("Invalid internal class name");
 
             directoryPath = pathToClass.substring(0, index);
-        } catch (FileNotFoundException e) {
-            directoryPath = null;
-            e.printStackTrace();
         } catch (IOException e) {
-            directoryPath = null;
             e.printStackTrace();
         } finally {
             if (dis != null)
                 try {
                     dis.close();
-                } catch (IOException e) {
+                } catch (IOException ignored) {
                 }
         }
 
