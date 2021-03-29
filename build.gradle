@@ -30,8 +30,6 @@ shadowJar {
         // TODO: Uses RSyntaxTextArea causing conflict
         exclude(dependency('com.fifesoft:.*:.*'))
         exclude(dependency(':jd-gui-1.4.0:.*:.*'))
-
-        //exclude(dependency(':dx-31.0.0-rc2:.*:.*'))
     }
 }
 
