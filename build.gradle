@@ -13,6 +13,7 @@ defaultTasks 'shadowJar'
 
 repositories {
     mavenCentral()
+    google()
     maven { url 'https://jitpack.io' }
     flatDir { dirs 'libs' }
 }
@@ -40,11 +41,14 @@ tasks.withType(AbstractArchiveTask) {
 }
 
 dependencies {
+    implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
     implementation group: 'com.fifesoft', name: 'rsyntaxtextarea', version: '3.1.2'
     implementation group: 'com.github.fesh0r', name:'fernflower', version: '-SNAPSHOT' // Latest Fernflower
     implementation group: 'com.github.vlsi.mxgraph', name: 'jgraphx', version: '4.2.2'
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.6'
     implementation group: 'net.oneandone', name: 'jasmin', version: '3.0.13'
+    // TODO: Update to newest version (runtime bugs/errors in 1.2.0)
+    implementation group: 'com.github.skylot.jadx', name: 'jadx-core', version: 'v1.1.0'
     implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
     implementation group: 'commons-io', name: 'commons-io', version: '2.8.0'
     implementation group: 'org.apache.commons', name: 'commons-compress', version: '1.20'
@@ -58,8 +62,10 @@ dependencies {
     implementation group: 'org.ow2.asm', name: 'asm-tree', version: '9.1'
     implementation group: 'org.ow2.asm', name: 'asm-util', version: '9.1'
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
+    implementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.30'
     implementation group: 'org.smali', name: 'baksmali', version: '2.5.2'
 
+    implementation name: 'android-29-clst'
     implementation name: 'apktool-cli-all-2.5.1-dev'
     implementation name: 'byteanalysis-1.0'
     implementation name: 'd2j-base-cmd-2.1-SNAPSHOT'
@@ -70,9 +76,7 @@ dependencies {
     implementation name: 'dex-tools-2.1-SNAPSHOT'
     implementation name: 'dex-translator-2.1-SNAPSHOT'
     implementation name: 'dex-writer-2.1-SNAPSHOT'
-    implementation name: 'dx-31.0.0-rc2'
-    implementation name: 'jadx-core-1.2.0'
-    implementation name: 'jadx-plugins-api-1.2.0'
+    implementation name: 'dx-31.0.0-rc2' // Get from Android SDK Build-Tools
     implementation name: 'jar-rename-1.6'
     implementation name: 'jd-gui-1.4.0' // TODO: Update to newest version
     implementation name: 'procyon-compilertools-1.0-SNAPSHOT'
