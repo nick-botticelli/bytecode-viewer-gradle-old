@@ -57,7 +57,7 @@ dependencies {
     implementation group: 'org.benf', name: 'cfr', version: '0.151'
     implementation group: 'org.codehaus.janino', name: 'janino', version: '3.1.4'
     implementation group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
-    implementation group: 'org.ow2.asm', name: 'asm', version: '9.1'
+    implementation group: 'org.ow2.asm', name: 'asm', version: '9.3'
     implementation group: 'org.ow2.asm', name: 'asm-commons', version: '9.1'
     implementation group: 'org.ow2.asm', name: 'asm-tree', version: '9.1'
     implementation group: 'org.ow2.asm', name: 'asm-util', version: '9.1'
